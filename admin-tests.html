@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福驿站后台测试</title>
+  <style>
+    body { margin: 32px; color: #202124; font-family: Arial, "Microsoft YaHei", sans-serif; }
+    .pass { color: #0f7b45; }
+    .fail { color: #b42318; }
+    li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>幸福驿站后台测试</h1>
+  <ol id="results"></ol>
+  <script src="./admin.js"></script>
+  <script>
+    const results = document.querySelector("#results");
+
+    function record(name, passed, detail) {
+      const item = document.createElement("li");
+      item.className = passed ? "pass" : "fail";
+      item.textContent = `${passed ? "PASS" : "FAIL"} - ${name}${detail ? " - " + detail : ""}`;
+      results.appendChild(item);
+    }
+
+    function assertEqual(name, actual, expected) {
+      record(name, Object.is(actual, expected), `actual: ${actual}, expected: ${expected}`);
+    }
+
+    function assertTrue(name, value) {
+      record(name, Boolean(value), `actual: ${value}`);
+    }
+
+    try {
+      const api = window.StationAdmin;
+      const customers = api.CUSTOMERS;
+      const metrics = api.getMetrics(customers);
+      const firstCustomer = customers[0];
+      const pendingCustomers = api.filterCustomers(customers, { status: "待联系", keyword: "" });
+      const highPriorityCustomers = api.filterCustomers(customers, { quickFilter: "高优先级", status: "全部", keyword: "" });
+      const invitedCustomers = api.filterCustomers(customers, { quickFilter: "已邀约", status: "全部", keyword: "" });
+      const keywordCustomers = api.filterCustomers(customers, { status: "全部", keyword: firstCustomer.name.slice(0, 1) });
+      const reportHtml = api.buildReportHtml(firstCustomer);
+      const csv = api.buildCsv(customers);
+
+      assertTrue("admin api is available", Boolean(api));
+      assertTrue("has at least 4 demo customers", customers.length >= 4);
+      assertEqual("has 5 quick metric filters", api.METRIC_FILTERS.length, 5);
+      assertEqual("first quick filter is all customers", api.METRIC_FILTERS[0].label, "全部客户");
+      assertTrue("admin supports list detail views", api.VIEWS.includes("list") && api.VIEWS.includes("detail"));
+      assertEqual("metrics total matches customers", metrics.totalCustomers, customers.length);
+      assertTrue("metrics average score is positive", metrics.averageScore > 0);
+      assertTrue("metrics pending follow ups is counted", metrics.pendingFollowUps >= 1);
+      assertTrue("metrics salon intent is counted", metrics.salonIntent >= 1);
+      assertTrue("status filter returns matching customers", pendingCustomers.every((customer) => customer.followUpStatus === "待联系"));
+      assertTrue("high priority quick filter returns low score customers", highPriorityCustomers.every((customer) => customer.totalScore < 60));
+      assertTrue("invited quick filter returns invited customers", invitedCustomers.every((customer) => customer.followUpStatus === "已邀约沙龙"));
+      assertTrue("keyword filter returns a customer", keywordCustomers.length >= 1);
+      assertTrue("customer lookup works", api.getCustomerById(firstCustomer.id).name === firstCustomer.name);
+      assertTrue("report includes customer name", reportHtml.includes(firstCustomer.name));
+      assertTrue("report includes happiness score", reportHtml.includes(`${firstCustomer.totalScore} 分`));
+      assertTrue("report includes weakest dimension", reportHtml.includes(firstCustomer.weakestDimension));
+      assertTrue("report includes next step", reportHtml.includes(firstCustomer.nextStep));
+      assertTrue("csv includes contact", csv.includes(firstCustomer.contact));
+      assertTrue("csv includes follow up status", csv.includes(firstCustomer.followUpStatus));
+      assertTrue("official solution text is available", api.OFFICIAL_SOLUTION.includes("数据库"));
+      assertTrue("report html can be encoded for download", encodeURIComponent(reportHtml).includes("%E5%B9%B8%E7%A6%8F"));
+    } catch (error) {
+      record("test harness catches missing admin implementation", false, error.message);
+    }
+
+    Promise.all([
+      fetch("./admin.html").then((response) => response.text()),
+      fetch("./admin.css").then((response) => response.text()),
+      fetch("./admin.js").then((response) => response.text())
+    ]).then(([html, css, js]) => {
+      assertTrue("customer lead eyebrow is removed", !html.includes("客户线索"));
+      assertTrue("customer title can show count", html.includes("data-customer-count"));
+      assertTrue("metrics use two-row compact grid", css.includes("grid-template-columns: repeat(3, minmax(0, 1fr))"));
+      assertTrue("customer row uses compact horizontal meta", js.includes("customer-meta-line"));
+      assertTrue("detail page has bottom back button", js.includes("data-bottom-back-list"));
+      assertTrue("export data stays in list header", html.includes("data-export-current"));
+      assertTrue("detail name is placed in info bar", js.includes("<small>姓名</small>") && js.includes("detail-meta-highlight"));
+      assertTrue("detail score is placed in info bar", js.includes("<small>幸福指数</small>") && js.includes("detail-score-meta"));
+      assertTrue("detail no longer renders standalone score badge", !js.includes("score-badge"));
+    }).catch((error) => {
+      record("layout source checks can be loaded", false, error.message);
+    });
+  </script>
+</body>
+</html>
