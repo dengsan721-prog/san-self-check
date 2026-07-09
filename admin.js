@@ -356,11 +356,7 @@
       <button class="customer-row" data-customer-id="${customer.id}" type="button">
         <span class="customer-main">
           <strong>${escapeHtml(customer.name)}<i>${escapeHtml(customer.city)}</i></strong>
-          <span class="customer-meta-line">
-            <small>${escapeHtml(customer.contact)}</small>
-            <small>${escapeHtml(customer.submittedAt)}</small>
-            <small>${escapeHtml(customer.source)}</small>
-          </span>
+          <small>${escapeHtml(customer.contact)}</small>
         </span>
         <span class="customer-intent">
           <small>申请主题</small>
@@ -369,6 +365,10 @@
         <span class="customer-focus">
           <small>优先跟进</small>
           <strong>${escapeHtml(customer.weakestDimension)}</strong>
+        </span>
+        <span class="customer-source">
+          <small>${escapeHtml(customer.source)}</small>
+          <strong>${escapeHtml(customer.submittedAt.slice(5))}</strong>
         </span>
         <span class="score-pill"><b>${customer.totalScore}</b><small>分</small></span>
         <em class="${getStatusClass(customer.followUpStatus)}">${escapeHtml(customer.followUpStatus)}</em>
@@ -423,15 +423,15 @@
       </section>
       <section class="detail-section">
         <h3>行为数据</h3>
-        <ul class="event-list">
-          ${customer.events.map((event) => `<li>${escapeHtml(event)}</li>`).join("")}
-        </ul>
+        <div class="event-chip-list">
+          ${customer.events.map((event) => `<span>${escapeHtml(event)}</span>`).join("")}
+        </div>
       </section>
       <section class="detail-section">
         <h3>答题摘要</h3>
-        <ul class="event-list">
-          ${customer.answers.map((answer) => `<li>${escapeHtml(answer)}</li>`).join("")}
-        </ul>
+        <div class="event-chip-list answer-chip-list">
+          ${customer.answers.map((answer) => `<span>${escapeHtml(answer)}</span>`).join("")}
+        </div>
       </section>
       <div class="detail-bottom-actions">
         <button class="back-link back-link-bottom" data-back-list data-bottom-back-list type="button">← 返回申请列表</button>
