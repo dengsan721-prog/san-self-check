@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福驿站驿站主后台</title>
+  <link rel="icon" type="image/png" href="./assets/happiness-station-icon.png">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-topbar">
+      <div class="admin-brand">
+        <img src="./assets/happiness-station-icon.png" alt="幸福驿站">
+        <div>
+          <span>幸福驿站</span>
+          <strong>驿站主后台</strong>
+        </div>
+      </div>
+      <div class="admin-note">演示后台 · 模拟数据</div>
+    </header>
+
+    <section class="metrics-grid" data-metrics aria-label="客户快捷筛选"></section>
+
+    <section class="admin-view list-view" data-list-view>
+      <aside class="customer-panel">
+        <div class="panel-head">
+          <div>
+            <h1>自检客户 <span data-customer-count>0</span></h1>
+          </div>
+          <button class="ghost-admin-btn export-inline" data-export-current type="button">导出数据</button>
+        </div>
+        <div class="filter-row">
+          <input data-search placeholder="搜索姓名、电话、来源、城市">
+          <select data-status-filter aria-label="跟进状态">
+            <option>全部</option>
+            <option>待联系</option>
+            <option>已联系</option>
+            <option>已邀约沙龙</option>
+            <option>已参加</option>
+          </select>
+        </div>
+        <div class="customer-list" data-customer-list></div>
+      </aside>
+    </section>
+
+    <section class="admin-view detail-view" data-detail-view hidden>
+      <section class="detail-panel" data-customer-detail aria-label="客户详情"></section>
+    </section>
+
+    <section class="solution-panel" data-official-solution></section>
+  </main>
+  <script src="./admin.js"></script>
+</body>
+</html>
