@@ -82,8 +82,9 @@
       assertTrue("admin title is salon application focused", html.includes("免费沙龙申请"));
       assertTrue("customer title can show count", html.includes("data-customer-count"));
       assertTrue("metrics use two-row compact grid", css.includes("grid-template-columns: repeat(3, minmax(0, 1fr))"));
-      assertTrue("customer row uses compact horizontal meta", js.includes("customer-meta-line"));
+      assertTrue("customer row uses compact horizontal source", js.includes("customer-source"));
       assertTrue("customer row shows application topic", js.includes("申请主题"));
+      assertTrue("detail uses horizontal event chips", js.includes("event-chip-list"));
       assertTrue("detail page has bottom back button", js.includes("data-bottom-back-list"));
       assertTrue("detail back copy returns to application list", js.includes("返回申请列表"));
       assertTrue("export data stays in list header", html.includes("data-export-current"));
