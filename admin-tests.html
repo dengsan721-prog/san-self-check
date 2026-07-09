@@ -14,7 +14,7 @@
 <body>
   <h1>幸福驿站后台测试</h1>
   <ol id="results"></ol>
-  <script src="./admin.js"></script>
+  <script src="./admin.js?v=horizontal-admin-2"></script>
   <script>
     const results = document.querySelector("#results");
 
@@ -74,9 +74,9 @@
     }
 
     Promise.all([
-      fetch("./admin.html").then((response) => response.text()),
-      fetch("./admin.css").then((response) => response.text()),
-      fetch("./admin.js").then((response) => response.text())
+      fetch("./admin.html?v=horizontal-admin-2").then((response) => response.text()),
+      fetch("./admin.css?v=horizontal-admin-2").then((response) => response.text()),
+      fetch("./admin.js?v=horizontal-admin-2").then((response) => response.text())
     ]).then(([html, css, js]) => {
       assertTrue("customer lead eyebrow is removed", !html.includes("客户线索"));
       assertTrue("admin title is salon application focused", html.includes("免费沙龙申请"));
