@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福自检表测试</title>
+  <style>
+    body { font-family: Arial, "Microsoft YaHei", sans-serif; margin: 32px; color: #202124; }
+    .pass { color: #0f7b45; }
+    .fail { color: #b42318; }
+    li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>幸福自检表测试</h1>
+  <ol id="results"></ol>
+  <script src="./app.js"></script>
+  <script>
+    const results = document.querySelector("#results");
+
+    function record(name, passed, detail) {
+      const item = document.createElement("li");
+      item.className = passed ? "pass" : "fail";
+      item.textContent = `${passed ? "PASS" : "FAIL"} - ${name}${detail ? " - " + detail : ""}`;
+      results.appendChild(item);
+    }
+
+    function assertEqual(name, actual, expected) {
+      record(name, Object.is(actual, expected), `actual: ${actual}, expected: ${expected}`);
+    }
+
+    function assertTrue(name, value) {
+      record(name, Boolean(value), `actual: ${value}`);
+    }
+
+    try {
+      const allBest = HappinessDemo.QUESTIONS.map((question) => question.options.findIndex((option) => option.score === 3));
+      const allLowest = HappinessDemo.QUESTIONS.map((question) => question.options.findIndex((option) => option.score === 0));
+      const mixed = HappinessDemo.QUESTIONS.map((question, index) => index % 4);
+
+      const bestResult = HappinessDemo.calculateResult(allBest);
+      const lowResult = HappinessDemo.calculateResult(allLowest);
+      const mixedResult = HappinessDemo.calculateResult(mixed);
+
+      assertEqual("has 20 questions", HappinessDemo.QUESTIONS.length, 20);
+      assertTrue("every question has 4 options", HappinessDemo.QUESTIONS.every((question) => question.options.length === 4));
+      assertTrue("every question uses 0 to 3 scoring", HappinessDemo.QUESTIONS.every((question) => {
+        const scores = question.options.map((option) => option.score).sort((a, b) => a - b).join(",");
+        return scores === "0,1,2,3";
+      }));
+      assertTrue("options are not all ordered from best to worst", HappinessDemo.QUESTIONS.some((question) => {
+        return question.options.map((option) => option.score).join(",") !== "3,2,1,0";
+      }));
+      assertEqual("best raw score is 60", bestResult.rawScore, 60);
+      assertEqual("best total score is 100", bestResult.totalScore, 100);
+      assertEqual("best index is 100", bestResult.indexScore, 100);
+      assertEqual("lowest total score is 0", lowResult.totalScore, 0);
+      assertEqual("lowest index is 0", lowResult.indexScore, 0);
+      assertEqual("pass line is 60", bestResult.passLine, 60);
+      assertEqual("best result level", bestResult.level.title, "幸福基础优秀");
+      assertEqual("lowest result level", lowResult.level.title, "未达及格线，建议优先梳理");
+      assertTrue("dimensions expose percentage scores", bestResult.dimensions.every((dimension) => dimension.percentScore === 100));
+      assertTrue("mixed result has an advantage dimension", mixedResult.strongest.label.length > 0);
+      assertTrue("mixed result has a focus dimension", mixedResult.weakest.label.length > 0);
+      assertEqual("empty lead is invalid", HappinessDemo.validateLead({ name: "", contact: "" }).valid, false);
+      assertEqual("complete lead is valid", HappinessDemo.validateLead({ name: "王女士", contact: "wx123" }).valid, true);
+      assertEqual("footer quote is available", HappinessDemo.FOOTER_QUOTE, "如果你不幸福，那长寿就是延长痛苦！");
+      assertEqual("truth hint is available", HappinessDemo.TRUTH_HINT, "请按最近 30 天最常发生的真实情况选择，不选应该怎么做，只选更像你家的样子。");
+      assertEqual(
+        "question 15 busy response is scenario based",
+        HappinessDemo.QUESTIONS[14].options.find((option) => option.score === 1).text,
+        "先不理，想着等忙完再说，但后来有时就忘了"
+      );
+      assertEqual(
+        "success next step uses discovery to happiness wording",
+        HappinessDemo.SUCCESS_NEXT_STEP,
+        "幸福驿站老师会根据你的自检结果，邀请你参加一次免费幸福沙龙，陪你从“发现问题”走到“开始行动”，再走到“收获幸福”。"
+      );
+      assertEqual("success next step title is happiness start", HappinessDemo.SUCCESS_NEXT_STEP_TITLE, "幸福起点");
+      assertEqual("radar uses refined 5-layer grid", HappinessDemo.RADAR_RING_COUNT, 5);
+      assertEqual("start button arrow is hidden", HappinessDemo.SHOW_START_ARROW, false);
+      assertEqual("radar label shortens dimension name", HappinessDemo.getRadarLabel("亲密互信（关系）").short, "亲密互信");
+      assertEqual("radar label keeps parenthetical detail", HappinessDemo.getRadarLabel("亲密互信（关系）").detail, "（关系）");
+      assertEqual("home illustration path is available", HappinessDemo.HERO_IMAGE, "./assets/happy-family-hero.jpg");
+      assertEqual("result mantra is removed", "RESULT_MANTRA" in HappinessDemo, false);
+      assertEqual("question dimension label is hidden", HappinessDemo.SHOW_QUESTION_DIMENSION_LABEL, false);
+      assertEqual("result title text is available", HappinessDemo.RESULT_TITLE_TEXT, "你的自检结果");
+      assertEqual("expert analysis title is available", HappinessDemo.EXPERT_ANALYSIS_TITLE, "专家团分析解读");
+      assertEqual("salon CTA text is available", HappinessDemo.SALON_CTA_TEXT, "申请参加免费幸福沙龙");
+      assertEqual("lead page title is free salon application", HappinessDemo.LEAD_PAGE_TITLE, "申请免费幸福沙龙");
+      assertTrue("expert analysis removes old challenge label", !HappinessDemo.renderExpertAnalysis(mixedResult).includes("专家团质询"));
+      assertTrue("expert analysis uses vivid mirror language", HappinessDemo.renderExpertAnalysis(mixedResult).includes("镜子照见"));
+      assertTrue("expert analysis points to free salon", HappinessDemo.renderExpertAnalysis(mixedResult).includes("免费幸福沙龙"));
+      assertEqual("red status for low dimension", HappinessDemo.getDimensionStatus(5, 12).label, "红灯预警");
+      assertEqual("yellow status for middle dimension", HappinessDemo.getDimensionStatus(8, 12).label, "黄灯调整");
+      assertEqual("green status for high dimension", HappinessDemo.getDimensionStatus(10, 12).label, "绿灯稳定");
+      assertEqual(
+        "dimension labels are updated",
+        HappinessDemo.DIMENSIONS.map((dimension) => dimension.label).join(" / "),
+        "亲密互信（关系） / 用心倾听（沟通） / 生活仪式（温度） / 赋能赞美（鼓励） / 情绪修复（稳定）"
+      );
+    } catch (error) {
+      record("test harness catches missing implementation", false, error.message);
+    }
+  </script>
+</body>
+</html>
