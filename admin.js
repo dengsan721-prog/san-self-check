@@ -4,9 +4,9 @@
   const OFFICIAL_SOLUTION = "正式运营版建议接入登录权限、数据库、报告生成服务、企业微信通知和数据导出，形成从获客到跟进的完整闭环。";
   const VIEWS = ["list", "detail"];
   const METRIC_FILTERS = [
-    { key: "全部客户", label: "全部客户" },
+    { key: "全部申请", label: "全部申请" },
     { key: "待联系", label: "待联系" },
-    { key: "高优先级", label: "高优先级" },
+    { key: "高优先级", label: "高优先" },
     { key: "已邀约", label: "已邀约" },
     { key: "已参加", label: "已参加" }
   ];
@@ -196,7 +196,7 @@
 
   const state = {
     view: "list",
-    quickFilter: "全部客户",
+    quickFilter: "全部申请",
     status: "全部",
     keyword: "",
     selectedId: CUSTOMERS[0].id
@@ -212,10 +212,10 @@
 
   function filterCustomers(customers, filters) {
     const status = filters?.status || "全部";
-    const quickFilter = filters?.quickFilter || "全部客户";
+    const quickFilter = filters?.quickFilter || "全部申请";
     const keyword = (filters?.keyword || "").trim().toLowerCase();
     return customers.filter((customer) => {
-      const quickMatch = quickFilter === "全部客户"
+      const quickMatch = quickFilter === "全部申请"
         || (quickFilter === "待联系" && customer.followUpStatus === "待联系")
         || (quickFilter === "高优先级" && customer.totalScore < 60)
         || (quickFilter === "已邀约" && customer.followUpStatus === "已邀约沙龙")
@@ -328,7 +328,7 @@
   }
 
   function getQuickFilterCount(key) {
-    if (key === "全部客户") return CUSTOMERS.length;
+    if (key === "全部申请") return CUSTOMERS.length;
     return filterCustomers(CUSTOMERS, { quickFilter: key, status: "全部", keyword: "" }).length;
   }
 
@@ -349,26 +349,26 @@
 
   function renderTable(root, customers) {
     if (customers.length === 0) {
-      root.innerHTML = `<div class="empty-state">暂无匹配客户，可以调整搜索词或跟进状态。</div>`;
+      root.innerHTML = `<div class="empty-state">暂无匹配申请，可以调整搜索词或跟进状态。</div>`;
       return;
     }
     root.innerHTML = customers.map((customer) => `
       <button class="customer-row" data-customer-id="${customer.id}" type="button">
         <span class="customer-main">
-          <strong>${escapeHtml(customer.name)}</strong>
+          <strong>${escapeHtml(customer.name)}<i>${escapeHtml(customer.city)}</i></strong>
           <span class="customer-meta-line">
             <small>${escapeHtml(customer.contact)}</small>
             <small>${escapeHtml(customer.submittedAt)}</small>
             <small>${escapeHtml(customer.source)}</small>
           </span>
         </span>
-        <span class="customer-focus">
-          <small>低分维度</small>
-          <strong>${escapeHtml(customer.weakestDimension)}</strong>
-        </span>
         <span class="customer-intent">
-          <small>关注</small>
+          <small>申请主题</small>
           <strong>${escapeHtml(customer.concern)}</strong>
+        </span>
+        <span class="customer-focus">
+          <small>优先跟进</small>
+          <strong>${escapeHtml(customer.weakestDimension)}</strong>
         </span>
         <span class="score-pill"><b>${customer.totalScore}</b><small>分</small></span>
         <em class="${getStatusClass(customer.followUpStatus)}">${escapeHtml(customer.followUpStatus)}</em>
@@ -378,22 +378,22 @@
 
   function renderDetail(root, customer) {
     root.innerHTML = `
-      <button class="back-link back-link-top" data-back-list type="button">← 返回客户列表</button>
+      <button class="back-link back-link-top" data-back-list type="button">← 返回申请列表</button>
       <div class="detail-head">
         <div>
-          <span class="eyebrow">客户详情</span>
-          <h2>信息总览</h2>
+          <span class="eyebrow">免费幸福沙龙申请</span>
+          <h2>申请信息总览</h2>
         </div>
       </div>
       <div class="detail-meta-grid">
         <span class="detail-meta-highlight"><small>姓名</small><b>${escapeHtml(customer.name)}</b></span>
         <span class="detail-meta-highlight detail-score-meta"><small>幸福指数</small><b>${customer.totalScore}<em>分</em></b></span>
-        <span><small>联系</small><b>${escapeHtml(customer.contact)}</b></span>
-        <span><small>城市</small><b>${escapeHtml(customer.city)}</b></span>
-        <span><small>来源</small><b>${escapeHtml(customer.source)}</b></span>
-        <span><small>提交</small><b>${escapeHtml(customer.submittedAt)}</b></span>
-        <span><small>设备</small><b>${escapeHtml(customer.device)}</b></span>
-        <span><small>关注</small><b>${escapeHtml(customer.concern)}</b></span>
+        <span><small>联系方式</small><b>${escapeHtml(customer.contact)}</b></span>
+        <span><small>申请主题</small><b>${escapeHtml(customer.concern)}</b></span>
+        <span><small>城市 / 来源</small><b>${escapeHtml(customer.city)} · ${escapeHtml(customer.source)}</b></span>
+        <span><small>提交时间</small><b>${escapeHtml(customer.submittedAt)}</b></span>
+        <span><small>跟进状态</small><b>${escapeHtml(customer.followUpStatus)}</b></span>
+        <span><small>报告状态</small><b>${escapeHtml(customer.reportStatus)}</b></span>
       </div>
       <div class="detail-actions">
         <a class="primary-admin-btn" href="${buildDataUrl(buildReportHtml(customer), "text/html")}" download="${escapeHtml(customer.name)}-幸福自检报告.html">下载报告</a>
@@ -434,7 +434,7 @@
         </ul>
       </section>
       <div class="detail-bottom-actions">
-        <button class="back-link back-link-bottom" data-back-list data-bottom-back-list type="button">← 返回客户列表</button>
+        <button class="back-link back-link-bottom" data-back-list data-bottom-back-list type="button">← 返回申请列表</button>
       </div>
     `;
   }
