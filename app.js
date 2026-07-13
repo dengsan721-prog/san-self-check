@@ -557,17 +557,7 @@
           </div>
           <div class="simple-hero">
             <h1 class="home-title">幸福自检表</h1>
-            <p class="lead-copy">用 20 个真实生活场景，看见家里的沟通、温度、鼓励和修复力。</p>
-          </div>
-          <div class="intro-stats" aria-label="自检信息">
-            <span>20题自检</span>
-            <span>约3分钟</span>
-            <span>百分制结果</span>
-          </div>
-          <div class="intro-points" aria-label="测试重点">
-            <span><b>测什么</b><small>五个家庭幸福维度</small></span>
-            <span><b>怎么测</b><small>按最近 30 天真实情况选择</small></span>
-            <span><b>测完后</b><small>得到分数、解读和行动建议</small></span>
+            <p class="lead-copy">用 20 个真实生活场景，安静看见家的幸福状态。</p>
           </div>
           <button class="primary-btn start-btn" data-action="start">
             <span>开始自检</span>
