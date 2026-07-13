@@ -71,12 +71,8 @@
         HappinessDemo.QUESTIONS[14].options.find((option) => option.score === 1).text,
         "先不理，想着等忙完再说，但后来有时就忘了"
       );
-      assertEqual(
-        "success next step uses discovery to happiness wording",
-        HappinessDemo.SUCCESS_NEXT_STEP,
-        "幸福驿站老师会根据你的自检结果，邀请你参加一次免费幸福沙龙，陪你从“发现问题”走到“开始行动”，再走到“收获幸福”。"
-      );
-      assertEqual("success next step title is happiness start", HappinessDemo.SUCCESS_NEXT_STEP_TITLE, "幸福起点");
+      assertEqual("application success title is inline", HappinessDemo.APPLICATION_SUCCESS_TITLE, "申请已收到");
+      assertEqual("success page constants are removed", "SUCCESS_NEXT_STEP" in HappinessDemo, false);
       assertEqual("radar uses refined 5-layer grid", HappinessDemo.RADAR_RING_COUNT, 5);
       assertEqual("start button arrow is hidden", HappinessDemo.SHOW_START_ARROW, false);
       assertEqual("radar label shortens dimension name", HappinessDemo.getRadarLabel("亲密互信（关系）").short, "亲密互信");
@@ -86,8 +82,12 @@
       assertEqual("question dimension label is hidden", HappinessDemo.SHOW_QUESTION_DIMENSION_LABEL, false);
       assertEqual("result title text is available", HappinessDemo.RESULT_TITLE_TEXT, "你的自检结果");
       assertEqual("expert analysis title is available", HappinessDemo.EXPERT_ANALYSIS_TITLE, "专家团分析解读");
-      assertEqual("salon CTA text is available", HappinessDemo.SALON_CTA_TEXT, "申请参加免费幸福沙龙");
-      assertEqual("lead page title is free salon application", HappinessDemo.LEAD_PAGE_TITLE, "申请免费幸福沙龙");
+      assertEqual("salon CTA text asks for teacher interpretation", HappinessDemo.SALON_CTA_TEXT, "填写信息，申请老师解读");
+      assertEqual("lead page title is interpretation application", HappinessDemo.LEAD_PAGE_TITLE, "申请老师解读");
+      assertEqual("expert analysis has ten score bands", HappinessDemo.EXPERT_SCORE_BANDS.length, 10);
+      assertEqual("expert band changes every ten points", HappinessDemo.getExpertBand(9).range, "0-9");
+      assertEqual("expert band for ten points", HappinessDemo.getExpertBand(10).range, "10-19");
+      assertEqual("expert band for ninety points", HappinessDemo.getExpertBand(90).range, "90-100");
       assertTrue("expert analysis removes old challenge label", !HappinessDemo.renderExpertAnalysis(mixedResult).includes("专家团质询"));
       assertTrue("expert analysis uses vivid mirror language", HappinessDemo.renderExpertAnalysis(mixedResult).includes("镜子照见"));
       assertTrue("expert analysis points to free salon", HappinessDemo.renderExpertAnalysis(mixedResult).includes("免费幸福沙龙"));
@@ -102,6 +102,19 @@
     } catch (error) {
       record("test harness catches missing implementation", false, error.message);
     }
+
+    Promise.all([
+      fetch("./app.js?v=inline-application-1").then((response) => response.text()),
+      fetch("./styles.css?v=inline-application-1").then((response) => response.text())
+    ]).then(([js, css]) => {
+      assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
+      assertTrue("intro uses simplified point list", js.includes("intro-points"));
+      assertTrue("result renders inline application form", js.includes("renderSalonApplication(result)") && js.includes("salon-application"));
+      assertTrue("separate success screen is removed", !js.includes("renderSuccess") && !js.includes("setScreen(\"success\")"));
+      assertTrue("inline application form is styled", css.includes("inline-lead-form") && css.includes("salon-application"));
+    }).catch((error) => {
+      record("source checks can be loaded", false, error.message);
+    });
   </script>
 </body>
 </html>
