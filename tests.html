@@ -71,7 +71,7 @@
         HappinessDemo.QUESTIONS[14].options.find((option) => option.score === 1).text,
         "先不理，想着等忙完再说，但后来有时就忘了"
       );
-      assertEqual("application success title is inline", HappinessDemo.APPLICATION_SUCCESS_TITLE, "申请已收到");
+      assertEqual("application success constants are removed", "APPLICATION_SUCCESS_TITLE" in HappinessDemo, false);
       assertEqual("success page constants are removed", "SUCCESS_NEXT_STEP" in HappinessDemo, false);
       assertEqual("radar uses refined 5-layer grid", HappinessDemo.RADAR_RING_COUNT, 5);
       assertEqual("start button arrow is hidden", HappinessDemo.SHOW_START_ARROW, false);
@@ -82,8 +82,8 @@
       assertEqual("question dimension label is hidden", HappinessDemo.SHOW_QUESTION_DIMENSION_LABEL, false);
       assertEqual("result title text is available", HappinessDemo.RESULT_TITLE_TEXT, "你的自检结果");
       assertEqual("expert analysis title is available", HappinessDemo.EXPERT_ANALYSIS_TITLE, "专家团分析解读");
-      assertEqual("salon CTA text asks for teacher interpretation", HappinessDemo.SALON_CTA_TEXT, "填写信息，申请老师解读");
-      assertEqual("lead page title is interpretation application", HappinessDemo.LEAD_PAGE_TITLE, "申请老师解读");
+      assertEqual("salon CTA points to station owner", HappinessDemo.SALON_CTA_TEXT, "找驿站主申请免费沙龙");
+      assertEqual("lead page title is free salon", HappinessDemo.LEAD_PAGE_TITLE, "申请参加一场免费幸福沙龙");
       assertEqual("expert analysis has ten score bands", HappinessDemo.EXPERT_SCORE_BANDS.length, 10);
       assertEqual("expert band changes every ten points", HappinessDemo.getExpertBand(9).range, "0-9");
       assertEqual("expert band for ten points", HappinessDemo.getExpertBand(10).range, "10-19");
@@ -109,9 +109,11 @@
     ]).then(([js, css]) => {
       assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
       assertTrue("intro uses simplified point list", js.includes("intro-points"));
-      assertTrue("result renders inline application form", js.includes("renderSalonApplication(result)") && js.includes("salon-application"));
+      assertTrue("home title is station self check", js.includes("幸福驿站自检表"));
+      assertTrue("result renders salon guidance", js.includes("renderSalonApplication(result)") && js.includes("salon-purpose-list"));
+      assertTrue("result no longer renders lead form", !js.includes("data-lead-form") && !js.includes("lead-contact"));
       assertTrue("separate success screen is removed", !js.includes("renderSuccess") && !js.includes("setScreen(\"success\")"));
-      assertTrue("inline application form is styled", css.includes("inline-lead-form") && css.includes("salon-application"));
+      assertTrue("salon guidance is styled", css.includes("salon-purpose-list") && css.includes("salon-final-cta"));
     }).catch((error) => {
       record("source checks can be loaded", false, error.message);
     });
