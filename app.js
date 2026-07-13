@@ -255,11 +255,9 @@
   const SHOW_START_ARROW = false;
   const RESULT_TITLE_TEXT = "你的自检结果";
   const EXPERT_ANALYSIS_TITLE = "专家团分析解读";
-  const SALON_CTA_TEXT = "填写信息，申请老师解读";
-  const LEAD_PAGE_TITLE = "申请老师解读";
-  const LEAD_PAGE_COPY = "留下一个方便联系的方式，幸福驿站老师会结合你的自检结果，邀请你参加一次免费幸福沙龙，陪你把问题讲清楚。";
-  const APPLICATION_SUCCESS_TITLE = "申请已收到";
-  const APPLICATION_SUCCESS_TEXT = "幸福驿站老师会结合你的自检结果，联系你申请参加免费幸福沙龙。先把问题看清楚，再从一个能做到的小行动开始。";
+  const SALON_CTA_TEXT = "找驿站主申请免费沙龙";
+  const LEAD_PAGE_TITLE = "申请参加一场免费幸福沙龙";
+  const LEAD_PAGE_COPY = "不是一阵子解决问题，而是学习一辈子解决问题的幸福能力。找到源头、看清原因，你才会真正知道怎么解决问题。";
   const RADAR_RING_COUNT = 5;
   const EXPERT_SCORE_BANDS = [
     {
@@ -280,7 +278,7 @@
       discovery: "自检提醒你：幸福感已经有资源，但某个维度会在关键时刻掉链子，比如忙的时候少听一句，累的时候少给一个好脸色。",
       risk: "如果这些小缺口长期不补，会从偶尔的小不舒服，慢慢变成固定的抱怨点。",
       root: "根本原因通常不是不爱，而是表达、倾听和修复没有形成稳定动作。",
-      next: "适合申请老师解读，参加一次免费幸福沙龙，把短板补上，让家庭状态更稳。"
+      next: "适合找驿站主申请参加一场免费幸福沙龙，把短板补上，让家庭状态更稳。"
     },
     {
       min: 70,
@@ -290,7 +288,7 @@
       discovery: "自检照见的是：不是所有地方都糟，而是有一个维度正在反复制造摩擦。",
       risk: "如果继续靠忍、拖、讲道理解决，问题容易从一件事变成一种相处模式。",
       root: "根本开关多半在自己的回应方式：先听见，再表达；先修复，再要求。",
-      next: "建议申请老师解读，参加免费幸福沙龙，先找到最该改的一个动作。"
+      next: "建议找驿站主申请参加免费幸福沙龙，先找到最该改的一个动作。"
     },
     {
       min: 60,
@@ -300,7 +298,7 @@
       discovery: "自检照见的是：家里不是没有爱，而是很多爱被急躁、敷衍、冷处理挡住了。",
       risk: "如果不处理，家人会越来越习惯不说、不问、不期待，幸福感会继续往下掉。",
       root: "根本原因常常不是某一个人坏，而是大家都缺少一套能修复关系的方法。",
-      next: "建议尽快申请老师解读，参加免费幸福沙龙，让老师陪你把问题讲清楚。"
+      next: "建议尽快找驿站主申请免费幸福沙龙，把问题讲清楚，把方向看清楚。"
     },
     {
       min: 50,
@@ -310,7 +308,7 @@
       discovery: "自检照见的是：你可能已经感觉到累、委屈、失望，但一直没有真正停下来梳理。",
       risk: "如果继续拖着，问题会从情绪不舒服，变成沟通不愿意、关系不亲近。",
       root: "根本开关在于先承认问题和自己有关，才有可能接受对的方法。",
-      next: "建议填写信息申请老师解读，参加免费幸福沙龙，先从一个最容易改变的场景开始。"
+      next: "建议找驿站主申请免费幸福沙龙，先从一个最容易改变的场景开始。"
     },
     {
       min: 40,
@@ -320,7 +318,7 @@
       discovery: "自检照见的是：有些问题并不是突然发生，而是很多次没被好好处理的场景积累起来了。",
       risk: "如果不解决，沉默、顶撞、冷战、失望会越来越常见，家里会越来越难放松。",
       root: "根本原因常常在于情绪修复能力不足，越急着证明自己对，关系越容易受伤。",
-      next: "建议优先申请老师解读，参加免费幸福沙龙，让一个成长环境托住你开始改变。"
+      next: "建议优先找驿站主申请免费幸福沙龙，让一个成长环境托住你开始改变。"
     },
     {
       min: 30,
@@ -330,7 +328,7 @@
       discovery: "自检照见的是：家里可能已经形成了固定循环，一开口就冲突，一沉默就更远。",
       risk: "如果继续按原方式相处，孩子、伴侣或家人会越来越防御，关系会更难靠近。",
       root: "根本开关在于先停下旧反应，学习新的倾听、表达和修复方式。",
-      next: "建议马上填写信息申请解读，参加免费幸福沙龙，不要再一个人反复消耗。"
+      next: "建议马上找驿站主申请免费幸福沙龙，不要再一个人反复消耗。"
     },
     {
       min: 20,
@@ -340,7 +338,7 @@
       discovery: "自检照见的是：很多场景已经不是简单沟通问题，而是关系安全感在下降。",
       risk: "如果不处理，家人之间会越来越像室友，甚至一说话就互相刺痛。",
       root: "根本原因往往不是没有爱，而是不知道如何把爱表达成让对方能接住的方式。",
-      next: "建议尽快申请老师解读，参加免费幸福沙龙，让老师陪你先做一次温和梳理。"
+      next: "建议尽快找驿站主申请免费幸福沙龙，先做一次温和梳理。"
     },
     {
       min: 10,
@@ -350,7 +348,7 @@
       discovery: "自检照见的是：家里的沟通、温度、鼓励和修复都需要重新建立。",
       risk: "如果继续独自硬扛，容易越来越麻木，甚至觉得现状只能这样。",
       root: "根本开关在于先进入一个有老师、有方法、有同伴的环境，重新看见可改变的入口。",
-      next: "建议填写信息申请解读，参加免费幸福沙龙，先让老师听见你的真实处境。"
+      next: "建议找驿站主申请免费幸福沙龙，先让你的真实处境被看见。"
     },
     {
       min: 0,
@@ -360,7 +358,7 @@
       discovery: "自检照见的是：家庭幸福感已经被长期习惯严重消耗，你可能已经不知道怎么开口才有用。",
       risk: "如果完全不处理，关系会继续冷下去，自己也会越来越失去力量。",
       root: "根本开关是先承认：旧方式走不通了，需要换环境、换方法、换行动。",
-      next: "建议马上填写信息申请老师解读，参加免费幸福沙龙，先从被看见开始。"
+      next: "建议马上找驿站主申请免费幸福沙龙，先从被看见开始。"
     }
   ];
 
@@ -373,8 +371,7 @@
       name: "",
       contact: "",
       concern: "亲子沟通"
-    },
-    leadSubmitted: false
+    }
   };
 
   function emptyDimensionScores() {
@@ -560,7 +557,7 @@
           </div>
           <div class="simple-hero">
             <div class="eyebrow">家庭幸福能力自评</div>
-            <h1 class="home-title">幸福自检表</h1>
+            <h1 class="home-title">幸福驿站自检表</h1>
             <p class="lead-copy">用 20 个真实生活场景，看见家里的沟通、温度、鼓励和修复力。</p>
           </div>
           <div class="intro-points" aria-label="测试重点">
@@ -748,46 +745,24 @@
   }
 
   function renderSalonApplication(result) {
-    if (state.leadSubmitted) {
-      return `
-        <section class="salon-application submitted" aria-label="${APPLICATION_SUCCESS_TITLE}">
-          <div class="application-confirm">
-            <strong>${APPLICATION_SUCCESS_TITLE}</strong>
-            <p>${APPLICATION_SUCCESS_TEXT}</p>
-            <p class="application-action">你的当前行动建议：${result.action}</p>
-          </div>
-        </section>
-      `;
-    }
-
     return `
-      <section class="salon-application" aria-label="${LEAD_PAGE_TITLE}">
+      <section class="salon-application salon-guidance" aria-label="${LEAD_PAGE_TITLE}">
         <div class="salon-application-head">
-          <span>${SALON_CTA_TEXT}</span>
-          <h3>邀请幸福驿站老师，陪你把结果讲清楚</h3>
+          <span>重点标识</span>
+          <h3>${SALON_CTA_TEXT}</h3>
           <p>${LEAD_PAGE_COPY}</p>
         </div>
-        <form class="lead-form inline-lead-form" data-lead-form>
-          <div class="field">
-            <label for="lead-name">称呼</label>
-            <input id="lead-name" name="name" value="${escapeHtml(state.lead.name)}" placeholder="例如：王女士" autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="lead-contact">微信或手机号</label>
-            <input id="lead-contact" name="contact" value="${escapeHtml(state.lead.contact)}" placeholder="用于老师联系你参加免费沙龙" autocomplete="tel">
-          </div>
-          <div class="field">
-            <label for="lead-concern">最想改善的问题</label>
-            <select id="lead-concern" name="concern">
-              ${["亲子沟通", "夫妻关系", "孩子学习动力", "家庭氛围", "情绪内耗"].map((item) => `
-                <option value="${item}" ${state.lead.concern === item ? "selected" : ""}>${item}</option>
-              `).join("")}
-            </select>
-          </div>
-          <div class="notice">信息仅用于老师解读结果、免费幸福沙龙邀请和后续沟通，不公开、不做诊断、不强制报名。</div>
-          <div class="error" role="status">${state.error}</div>
-          <button class="primary-btn" type="submit">提交申请</button>
-        </form>
+        <div class="salon-purpose-list">
+          <span><b>找到源头</b><small>看见问题从哪里开始</small></span>
+          <span><b>看清原因</b><small>知道为什么反复发生</small></span>
+          <span><b>自己会解决</b><small>收获一辈子的幸福能力</small></span>
+        </div>
+        <div class="salon-marker">
+          <strong>下一步很简单</strong>
+          <p>带着这份自检结果，去找你的幸福驿站驿站主，申请参加一场免费幸福沙龙。不是短暂缓解，而是学习让自己一辈子会幸福的方法。</p>
+          <p class="application-action">当前可先做的小行动：${result.action}</p>
+        </div>
+        <div class="salon-final-cta">${SALON_CTA_TEXT}</div>
       </section>
     `;
   }
@@ -853,13 +828,6 @@
     }
   }
 
-  function updateLeadValue(target) {
-    if (!target.closest("[data-lead-form]")) {
-      return;
-    }
-    state.lead[target.name] = target.value;
-  }
-
   document.addEventListener("click", (event) => {
     const optionButton = event.target.closest("[data-option]");
     const actionButton = event.target.closest("[data-action]");
@@ -878,7 +846,6 @@
       state.current = 0;
       state.answers = [];
       state.error = "";
-      state.leadSubmitted = false;
       state.lead = {
         name: "",
         contact: "",
@@ -892,30 +859,6 @@
     if (action === "prev") {
       prevQuestion();
     }
-  });
-
-  document.addEventListener("input", (event) => {
-    updateLeadValue(event.target);
-  });
-
-  document.addEventListener("change", (event) => {
-    updateLeadValue(event.target);
-  });
-
-  document.addEventListener("submit", (event) => {
-    if (!event.target.matches("[data-lead-form]")) {
-      return;
-    }
-    event.preventDefault();
-    const validation = validateLead(state.lead);
-    if (!validation.valid) {
-      state.error = validation.message;
-      render();
-      return;
-    }
-    state.leadSubmitted = true;
-    state.error = "";
-    setScreen("result");
   });
 
   document.addEventListener("DOMContentLoaded", render);
@@ -937,8 +880,6 @@
     SALON_CTA_TEXT,
     LEAD_PAGE_TITLE,
     LEAD_PAGE_COPY,
-    APPLICATION_SUCCESS_TITLE,
-    APPLICATION_SUCCESS_TEXT,
     RADAR_RING_COUNT,
     getRadarLabel,
     getExpertBand,
