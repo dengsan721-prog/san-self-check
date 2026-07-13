@@ -104,8 +104,8 @@
     }
 
     Promise.all([
-      fetch("./app.js?v=inline-application-1").then((response) => response.text()),
-      fetch("./styles.css?v=inline-application-1").then((response) => response.text())
+      fetch("./app.js?v=relaxed-home-1").then((response) => response.text()),
+      fetch("./styles.css?v=relaxed-home-1").then((response) => response.text())
     ]).then(([js, css]) => {
       assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
       assertTrue("intro removes fragmented point list", !js.includes("intro-points"));
