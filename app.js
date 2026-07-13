@@ -556,9 +556,13 @@
             </div>
           </div>
           <div class="simple-hero">
-            <div class="eyebrow">家庭幸福能力自评</div>
-            <h1 class="home-title">幸福驿站自检表</h1>
+            <h1 class="home-title">幸福自检表</h1>
             <p class="lead-copy">用 20 个真实生活场景，看见家里的沟通、温度、鼓励和修复力。</p>
+          </div>
+          <div class="intro-stats" aria-label="自检信息">
+            <span>20题自检</span>
+            <span>约3分钟</span>
+            <span>百分制结果</span>
           </div>
           <div class="intro-points" aria-label="测试重点">
             <span><b>测什么</b><small>五个家庭幸福维度</small></span>
@@ -568,7 +572,7 @@
           <button class="primary-btn start-btn" data-action="start">
             <span>开始自检</span>
           </button>
-          <p class="fine-print">本测试用于家庭幸福能力自评，不作为医学、心理诊断或治疗建议。</p>
+          <p class="fine-print">本测试用于家庭幸福感自我观察，不作为医学、心理诊断或治疗建议。</p>
           ${renderMotto()}
         </div>
       </section>
