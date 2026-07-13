@@ -255,12 +255,114 @@
   const SHOW_START_ARROW = false;
   const RESULT_TITLE_TEXT = "你的自检结果";
   const EXPERT_ANALYSIS_TITLE = "专家团分析解读";
-  const SALON_CTA_TEXT = "申请参加免费幸福沙龙";
-  const LEAD_PAGE_TITLE = "申请免费幸福沙龙";
-  const LEAD_PAGE_COPY = "请留下联系方式，幸福驿站老师会结合你的自检结果，为你整理一份沙龙前的家庭幸福卡点提示，并邀请你参加一次免费幸福沙龙。";
-  const SUCCESS_NEXT_STEP_TITLE = "幸福起点";
-  const SUCCESS_NEXT_STEP = "幸福驿站老师会根据你的自检结果，邀请你参加一次免费幸福沙龙，陪你从“发现问题”走到“开始行动”，再走到“收获幸福”。";
+  const SALON_CTA_TEXT = "填写信息，申请老师解读";
+  const LEAD_PAGE_TITLE = "申请老师解读";
+  const LEAD_PAGE_COPY = "留下一个方便联系的方式，幸福驿站老师会结合你的自检结果，邀请你参加一次免费幸福沙龙，陪你把问题讲清楚。";
+  const APPLICATION_SUCCESS_TITLE = "申请已收到";
+  const APPLICATION_SUCCESS_TEXT = "幸福驿站老师会结合你的自检结果，联系你申请参加免费幸福沙龙。先把问题看清楚，再从一个能做到的小行动开始。";
   const RADAR_RING_COUNT = 5;
+  const EXPERT_SCORE_BANDS = [
+    {
+      min: 90,
+      range: "90-100",
+      title: "把幸福变成家里的稳定传统",
+      headline: "这个分数说明你家已经有比较稳定的幸福底盘，接下来不是从零修补，而是把好习惯变成可以长期延续的家庭传统。",
+      discovery: "这次自检照见的是：你已经会倾听、会表达，也有修复关系的意识。真正值得留意的，是别让好状态只靠心情维持。",
+      risk: "如果没有继续沉淀方法，优秀状态也可能在压力、忙碌和长期疲惫里慢慢掉线。",
+      root: "根本开关在于把偶尔做得好，变成家里人人都知道、都愿意参与的小规则。",
+      next: "适合参加免费幸福沙龙，把已有经验整理成家庭幸福方法，让优势稳定下来，也能帮助更多家庭。"
+    },
+    {
+      min: 80,
+      range: "80-89",
+      title: "幸福资源充足，但需要精细打磨",
+      headline: "这个分数说明家庭里有爱、有基础，也有不少积极互动。现在最重要的不是大修，而是看见那些容易被忽略的小缺口。",
+      discovery: "自检提醒你：幸福感已经有资源，但某个维度会在关键时刻掉链子，比如忙的时候少听一句，累的时候少给一个好脸色。",
+      risk: "如果这些小缺口长期不补，会从偶尔的小不舒服，慢慢变成固定的抱怨点。",
+      root: "根本原因通常不是不爱，而是表达、倾听和修复没有形成稳定动作。",
+      next: "适合申请老师解读，参加一次免费幸福沙龙，把短板补上，让家庭状态更稳。"
+    },
+    {
+      min: 70,
+      range: "70-79",
+      title: "整体可修复，短板已经在提醒",
+      headline: "这个分数说明家里还有基础，但幸福感已经开始被某些习惯消耗。现在调整，成本最低。",
+      discovery: "自检照见的是：不是所有地方都糟，而是有一个维度正在反复制造摩擦。",
+      risk: "如果继续靠忍、拖、讲道理解决，问题容易从一件事变成一种相处模式。",
+      root: "根本开关多半在自己的回应方式：先听见，再表达；先修复，再要求。",
+      next: "建议申请老师解读，参加免费幸福沙龙，先找到最该改的一个动作。"
+    },
+    {
+      min: 60,
+      range: "60-69",
+      title: "刚过及格线，需要尽快修补",
+      headline: "这个分数说明家庭还有连接，但内耗已经比较明显。越早调整，越容易把关系拉回来。",
+      discovery: "自检照见的是：家里不是没有爱，而是很多爱被急躁、敷衍、冷处理挡住了。",
+      risk: "如果不处理，家人会越来越习惯不说、不问、不期待，幸福感会继续往下掉。",
+      root: "根本原因常常不是某一个人坏，而是大家都缺少一套能修复关系的方法。",
+      next: "建议尽快申请老师解读，参加免费幸福沙龙，让老师陪你把问题讲清楚。"
+    },
+    {
+      min: 50,
+      range: "50-59",
+      title: "低于及格线，关系正在发出信号",
+      headline: "这个分数不是吓人，而是在提醒：家庭幸福感已经被一些日常习惯明显消耗了。",
+      discovery: "自检照见的是：你可能已经感觉到累、委屈、失望，但一直没有真正停下来梳理。",
+      risk: "如果继续拖着，问题会从情绪不舒服，变成沟通不愿意、关系不亲近。",
+      root: "根本开关在于先承认问题和自己有关，才有可能接受对的方法。",
+      next: "建议填写信息申请老师解读，参加免费幸福沙龙，先从一个最容易改变的场景开始。"
+    },
+    {
+      min: 40,
+      range: "40-49",
+      title: "红灯明显，需要有人带着梳理",
+      headline: "这个分数说明家庭里已经有比较强的内耗感，单靠自己硬撑会很辛苦。",
+      discovery: "自检照见的是：有些问题并不是突然发生，而是很多次没被好好处理的场景积累起来了。",
+      risk: "如果不解决，沉默、顶撞、冷战、失望会越来越常见，家里会越来越难放松。",
+      root: "根本原因常常在于情绪修复能力不足，越急着证明自己对，关系越容易受伤。",
+      next: "建议优先申请老师解读，参加免费幸福沙龙，让一个成长环境托住你开始改变。"
+    },
+    {
+      min: 30,
+      range: "30-39",
+      title: "关系消耗较重，越拖越难修",
+      headline: "这个分数说明家庭幸福感已经处在比较吃力的阶段，需要把问题认真看见。",
+      discovery: "自检照见的是：家里可能已经形成了固定循环，一开口就冲突，一沉默就更远。",
+      risk: "如果继续按原方式相处，孩子、伴侣或家人会越来越防御，关系会更难靠近。",
+      root: "根本开关在于先停下旧反应，学习新的倾听、表达和修复方式。",
+      next: "建议马上填写信息申请解读，参加免费幸福沙龙，不要再一个人反复消耗。"
+    },
+    {
+      min: 20,
+      range: "20-29",
+      title: "幸福感严重透支，需要先止损",
+      headline: "这个分数说明家庭里的压力和失望已经比较重，先别急着责备谁，先把方向找回来。",
+      discovery: "自检照见的是：很多场景已经不是简单沟通问题，而是关系安全感在下降。",
+      risk: "如果不处理，家人之间会越来越像室友，甚至一说话就互相刺痛。",
+      root: "根本原因往往不是没有爱，而是不知道如何把爱表达成让对方能接住的方式。",
+      next: "建议尽快申请老师解读，参加免费幸福沙龙，让老师陪你先做一次温和梳理。"
+    },
+    {
+      min: 10,
+      range: "10-19",
+      title: "需要外部支持，先把问题说出来",
+      headline: "这个分数说明你可能已经很累了，很多时候不是不想改变，而是不知道从哪里开始。",
+      discovery: "自检照见的是：家里的沟通、温度、鼓励和修复都需要重新建立。",
+      risk: "如果继续独自硬扛，容易越来越麻木，甚至觉得现状只能这样。",
+      root: "根本开关在于先进入一个有老师、有方法、有同伴的环境，重新看见可改变的入口。",
+      next: "建议填写信息申请解读，参加免费幸福沙龙，先让老师听见你的真实处境。"
+    },
+    {
+      min: 0,
+      range: "0-9",
+      title: "先不要放弃，第一步是被看见",
+      headline: "这个分数说明你现在最需要的不是被评价，而是被理解、被支持，并重新找到一个可行动的起点。",
+      discovery: "自检照见的是：家庭幸福感已经被长期习惯严重消耗，你可能已经不知道怎么开口才有用。",
+      risk: "如果完全不处理，关系会继续冷下去，自己也会越来越失去力量。",
+      root: "根本开关是先承认：旧方式走不通了，需要换环境、换方法、换行动。",
+      next: "建议马上填写信息申请老师解读，参加免费幸福沙龙，先从被看见开始。"
+    }
+  ];
 
   const state = {
     screen: "intro",
@@ -271,7 +373,8 @@
       name: "",
       contact: "",
       concern: "亲子沟通"
-    }
+    },
+    leadSubmitted: false
   };
 
   function emptyDimensionScores() {
@@ -296,6 +399,11 @@
 
   function getLevel(percentScore) {
     return LEVELS.find((level) => percentScore >= level.min);
+  }
+
+  function getExpertBand(percentScore) {
+    const score = Math.max(0, Math.min(100, Number(percentScore) || 0));
+    return EXPERT_SCORE_BANDS.find((band) => score >= band.min) || EXPERT_SCORE_BANDS[EXPERT_SCORE_BANDS.length - 1];
   }
 
   function calculateResult(answerIndexes) {
@@ -374,7 +482,7 @@
     const name = (lead.name || "").trim();
     const contact = (lead.contact || "").trim();
     if (!name) {
-      return { valid: false, message: "请留下一个称呼，方便老师发送报告。" };
+      return { valid: false, message: "请留下一个称呼，方便老师联系你申请解读。" };
     }
     if (!contact) {
       return { valid: false, message: "请填写微信或手机号，用于老师联系你参加免费幸福沙龙。" };
@@ -450,15 +558,15 @@
               <small>让幸福回归每一个家庭</small>
             </div>
           </div>
-          <figure class="hero-visual" aria-label="幸福家庭漫画">
-            <img src="${HERO_IMAGE}" alt="一家人在温暖客厅里幸福相处的漫画">
-          </figure>
-          <h1 class="home-title">幸福自检表</h1>
-          <p class="lead-copy">20 个真实生活小场景，看看家里的沟通、温度、鼓励和修复力现在处在什么状态。</p>
-          <div class="intro-stats" aria-label="测试概览">
-            <span>20 题精选版</span>
-            <span>5 个维度</span>
-            <span>约 3 分钟</span>
+          <div class="simple-hero">
+            <div class="eyebrow">家庭幸福能力自评</div>
+            <h1 class="home-title">幸福自检表</h1>
+            <p class="lead-copy">用 20 个真实生活场景，看见家里的沟通、温度、鼓励和修复力。</p>
+          </div>
+          <div class="intro-points" aria-label="测试重点">
+            <span><b>测什么</b><small>五个家庭幸福维度</small></span>
+            <span><b>怎么测</b><small>按最近 30 天真实情况选择</small></span>
+            <span><b>测完后</b><small>得到分数、解读和行动建议</small></span>
           </div>
           <button class="primary-btn start-btn" data-action="start">
             <span>开始自检</span>
@@ -609,30 +717,77 @@
   }
 
   function renderExpertAnalysis(result) {
+    const band = getExpertBand(result.totalScore);
     return `
       <section class="expert-analysis" aria-label="${EXPERT_ANALYSIS_TITLE}">
         <div class="expert-head">
           <h3><span>${EXPERT_ANALYSIS_TITLE}</span></h3>
-          <p>这份自检像一面温和但诚实的镜子，不是为了给你贴标签，而是帮你看见：家庭幸福感究竟是在哪些日常细节里被慢慢消耗，又可以从哪里重新长出来。</p>
+          <div class="score-band-pill">${band.range} 分档 · ${band.title}</div>
+          <p>${band.headline}</p>
         </div>
         <div class="expert-grid">
           <div class="expert-card">
             <strong>镜子照见了哪里</strong>
-            <p>你的 ${result.weakest.label} 得分为 ${result.weakest.percentScore} 分，说明在最近的生活场景里，这一块已经不止一次影响到家里的幸福感。它可能不是一次大的争吵，而是很多个“算了”“不说了”“等会再说”堆在一起，让亲近的人慢慢变远。</p>
+            <p>${band.discovery} 其中 ${result.weakest.label} 是当前最需要被看见的地方，得分为 ${result.weakest.percentScore} 分。</p>
           </div>
           <div class="expert-card">
             <strong>不处理会长成什么</strong>
-            <p>很多家庭问题一开始并不剧烈，只是气氛变冷、回应变少、笑容变淡。如果长期被忽略，它容易从“偶尔不舒服”变成“习惯性不想说”，从一次情绪冲突，慢慢长成家人之间的防御、沉默和疏远。</p>
+            <p>${band.risk}</p>
           </div>
           <div class="expert-card">
             <strong>真正的开关在哪里</strong>
-            <p>表面看，问题可能是孩子不听话、伴侣不理解、家人不配合；往深处看，常常和自己的表达方式、倾听习惯、情绪修复能力有关。家庭不是靠讲道理变暖的，而是有人先学会换一种回应方式，关系才有机会重新流动。</p>
+            <p>${band.root}</p>
           </div>
           <div class="expert-card expert-next">
             <strong>把改变放进环境里</strong>
-            <p>如果不想让现状继续变糟，不建议一个人硬扛。真正的改变，往往需要一个有老师、有同伴、有方法的环境托住你。申请参加一次免费幸福沙龙，先把问题讲清楚，把方向看清楚，再从一个可做到的小行动开始。</p>
+            <p>${band.next}</p>
           </div>
         </div>
+      </section>
+    `;
+  }
+
+  function renderSalonApplication(result) {
+    if (state.leadSubmitted) {
+      return `
+        <section class="salon-application submitted" aria-label="${APPLICATION_SUCCESS_TITLE}">
+          <div class="application-confirm">
+            <strong>${APPLICATION_SUCCESS_TITLE}</strong>
+            <p>${APPLICATION_SUCCESS_TEXT}</p>
+            <p class="application-action">你的当前行动建议：${result.action}</p>
+          </div>
+        </section>
+      `;
+    }
+
+    return `
+      <section class="salon-application" aria-label="${LEAD_PAGE_TITLE}">
+        <div class="salon-application-head">
+          <span>${SALON_CTA_TEXT}</span>
+          <h3>邀请幸福驿站老师，陪你把结果讲清楚</h3>
+          <p>${LEAD_PAGE_COPY}</p>
+        </div>
+        <form class="lead-form inline-lead-form" data-lead-form>
+          <div class="field">
+            <label for="lead-name">称呼</label>
+            <input id="lead-name" name="name" value="${escapeHtml(state.lead.name)}" placeholder="例如：王女士" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="lead-contact">微信或手机号</label>
+            <input id="lead-contact" name="contact" value="${escapeHtml(state.lead.contact)}" placeholder="用于老师联系你参加免费沙龙" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="lead-concern">最想改善的问题</label>
+            <select id="lead-concern" name="concern">
+              ${["亲子沟通", "夫妻关系", "孩子学习动力", "家庭氛围", "情绪内耗"].map((item) => `
+                <option value="${item}" ${state.lead.concern === item ? "selected" : ""}>${item}</option>
+              `).join("")}
+            </select>
+          </div>
+          <div class="notice">信息仅用于老师解读结果、免费幸福沙龙邀请和后续沟通，不公开、不做诊断、不强制报名。</div>
+          <div class="error" role="status">${state.error}</div>
+          <button class="primary-btn" type="submit">提交申请</button>
+        </form>
       </section>
     `;
   }
@@ -669,71 +824,10 @@
             </div>
           </div>
           ${renderExpertAnalysis(result)}
+          ${renderSalonApplication(result)}
           <div class="button-row">
             <button class="secondary-btn" data-action="restart" type="button">重新测一次</button>
-            <button class="primary-btn" data-action="lead" type="button">${SALON_CTA_TEXT}</button>
           </div>
-          <p class="fine-print">提交后，幸福驿站老师会结合你的自检结果，邀请你参加一次免费幸福沙龙，并给你沙龙前的家庭幸福卡点提示。</p>
-          ${renderMotto()}
-        </div>
-      </section>
-    `;
-  }
-
-  function renderLead(root) {
-    root.innerHTML = `
-      <section class="app-shell">
-        <div class="surface">
-          <div class="eyebrow">免费沙龙申请</div>
-          <h2>${LEAD_PAGE_TITLE}</h2>
-          <p>${LEAD_PAGE_COPY}</p>
-          <form class="lead-form" data-lead-form>
-            <div class="field">
-              <label for="lead-name">称呼</label>
-              <input id="lead-name" name="name" value="${escapeHtml(state.lead.name)}" placeholder="例如：王女士" autocomplete="name">
-            </div>
-            <div class="field">
-              <label for="lead-contact">微信或手机号</label>
-              <input id="lead-contact" name="contact" value="${escapeHtml(state.lead.contact)}" placeholder="用于老师联系你参加免费沙龙" autocomplete="tel">
-            </div>
-            <div class="field">
-              <label for="lead-concern">最想改善的问题</label>
-              <select id="lead-concern" name="concern">
-                ${["亲子沟通", "夫妻关系", "孩子学习动力", "家庭氛围", "情绪内耗"].map((item) => `
-                  <option value="${item}" ${state.lead.concern === item ? "selected" : ""}>${item}</option>
-                `).join("")}
-              </select>
-            </div>
-            <div class="notice">信息仅用于免费幸福沙龙申请、老师沟通和结果提示，不公开、不做诊断、不强制报名。</div>
-            <div class="error" role="status">${state.error}</div>
-            <div class="button-row">
-              <button class="secondary-btn" data-action="result" type="button">返回结果</button>
-              <button class="primary-btn" type="submit">提交申请</button>
-            </div>
-          </form>
-          ${renderMotto()}
-        </div>
-      </section>
-    `;
-  }
-
-  function renderSuccess(root) {
-    const result = calculateResult(state.answers);
-    root.innerHTML = `
-      <section class="app-shell">
-        <div class="surface compact-state">
-          <div class="eyebrow">提交成功</div>
-          <h1>申请提交成功</h1>
-          <p>幸福驿站老师会根据你的自检结果，联系你参加免费幸福沙龙。</p>
-          <div class="success-block">
-            <strong>先从今晚一个小动作开始</strong>
-            <p>${result.action}</p>
-          </div>
-          <div class="success-next-step">
-            <strong>${SUCCESS_NEXT_STEP_TITLE}</strong>
-            <p>${SUCCESS_NEXT_STEP}</p>
-          </div>
-          <button class="primary-btn" data-action="restart" type="button">重新测一次</button>
           ${renderMotto()}
         </div>
       </section>
@@ -756,12 +850,6 @@
     }
     if (state.screen === "result") {
       renderResult(root);
-    }
-    if (state.screen === "lead") {
-      renderLead(root);
-    }
-    if (state.screen === "success") {
-      renderSuccess(root);
     }
   }
 
@@ -790,6 +878,12 @@
       state.current = 0;
       state.answers = [];
       state.error = "";
+      state.leadSubmitted = false;
+      state.lead = {
+        name: "",
+        contact: "",
+        concern: "亲子沟通"
+      };
       render();
     }
     if (action === "next") {
@@ -797,12 +891,6 @@
     }
     if (action === "prev") {
       prevQuestion();
-    }
-    if (action === "lead") {
-      setScreen("lead");
-    }
-    if (action === "result") {
-      setScreen("result");
     }
   });
 
@@ -825,7 +913,9 @@
       render();
       return;
     }
-    setScreen("success");
+    state.leadSubmitted = true;
+    state.error = "";
+    setScreen("result");
   });
 
   document.addEventListener("DOMContentLoaded", render);
@@ -843,13 +933,15 @@
     SHOW_START_ARROW,
     RESULT_TITLE_TEXT,
     EXPERT_ANALYSIS_TITLE,
+    EXPERT_SCORE_BANDS,
     SALON_CTA_TEXT,
     LEAD_PAGE_TITLE,
     LEAD_PAGE_COPY,
-    SUCCESS_NEXT_STEP_TITLE,
-    SUCCESS_NEXT_STEP,
+    APPLICATION_SUCCESS_TITLE,
+    APPLICATION_SUCCESS_TEXT,
     RADAR_RING_COUNT,
     getRadarLabel,
+    getExpertBand,
     renderExpertAnalysis,
     calculateResult,
     getDimensionStatus,
