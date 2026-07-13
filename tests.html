@@ -108,8 +108,8 @@
       fetch("./styles.css?v=inline-application-1").then((response) => response.text())
     ]).then(([js, css]) => {
       assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
-      assertTrue("intro uses simplified point list", js.includes("intro-points"));
-      assertTrue("intro includes compact stats", js.includes("intro-stats") && js.includes("20题自检"));
+      assertTrue("intro removes fragmented point list", !js.includes("intro-points"));
+      assertTrue("intro removes compact stat chips", !js.includes("intro-stats"));
       assertTrue("home title is happiness self check", js.includes("幸福自检表"));
       assertTrue("intro eyebrow is removed", !js.includes("家庭幸福能力自评"));
       assertTrue("result renders salon guidance", js.includes("renderSalonApplication(result)") && js.includes("salon-purpose-list"));
