@@ -140,7 +140,7 @@
     },
     {
       dimension: "encouragement",
-      text: "在外人面前聊家人，你更常是哪种状态？",
+      text: "在外人面前聊到家人时，你平常是哪种状态？",
       options: [
         { text: "看场合，有时夸，有时也会说两句问题", score: 2 },
         { text: "多说优点，愿意维护家人的体面", score: 3 },
@@ -753,7 +753,7 @@
         </div>
         <div class="salon-marker">
           <strong>下一步很简单</strong>
-          <p>带着这份自检结果，去找你的幸福驿站驿站主，申请参加一场免费幸福沙龙。不是短暂缓解，而是学习让自己一辈子会幸福的方法。</p>
+          <p>带着这份自检结果，去找你的幸福驿站老师，申请参加一场免费幸福沙龙。不是短暂缓解，而是学习让自己一辈子会幸福的方法。</p>
           <p class="application-action">当前可先做的小行动：${result.action}</p>
         </div>
         <div class="salon-final-cta">${SALON_CTA_TEXT}</div>
