@@ -258,8 +258,18 @@
   const SALON_CTA_TEXT = "我要幸福";
   const LEAD_PAGE_TITLE = "我申请参加幸福沙龙";
   const LEAD_PAGE_COPY = "不是一阵子解决问题，而是学习一辈子解决问题的幸福能力。找到源头、看清原因，你才会真正知道怎么解决问题。";
-  const SALON_PROMISE = "你想要解决的问题其实很简单，参加完免费沙龙，你自己就能找到问题的原因，自己解决！";
-  const SALON_APPLICATION_NOTE = "因为参加人数较多，申请幸福沙龙需要向驿站主老师提前排队预约。我们将以幸福沙龙的方式共同学习，全程 40-60 分钟，免费参与，严禁打广告、促销。老师会用 6 岁孩子都能听懂的语言和互动游戏，帮助你看清问题、找到原因。为了保证沙龙效果，每次只教 2 个人，参与的人都是咱们同龄人、普通爸妈。";
+  const SALON_PROMISE = "你想要解决的问题其实很简单，参加完免费幸福沙龙，你自己就能找到问题的原因，自己解决。";
+  const SALON_QUESTION_ONE = "想一阵子解决问题，还是一辈子解决问题？";
+  const SALON_QUESTION_TWO = "想要一阵子幸福，还是一辈子幸福？";
+  const SALON_REASON_LINE = "找到源头，看清原因，你才能真正知道怎么解决问题。";
+  const SALON_SCREENSHOT_NOTE = "截图本页面发送给驿站主老师，申请参加免费幸福沙龙";
+  const SALON_APPLICATION_NOTES = [
+    "因为参加人数较多，申请幸福沙龙需要向驿站主老师提前排队预约。",
+    "我们将以幸福沙龙的方式共同学习，全程 40-60 分钟，免费参与，严禁打广告、促销。",
+    "老师会用 6 岁孩子都能听懂的语言和互动游戏，帮助你看清问题、找到原因。",
+    "为了保证沙龙效果，每次只教 2 个人，参与的人都是咱们同龄人、普通爸妈。"
+  ];
+  const SALON_APPLICATION_NOTE = SALON_APPLICATION_NOTES.join("");
   const RADAR_RING_COUNT = 5;
   const EXPERT_SCORE_BANDS = [
     {
@@ -511,6 +521,37 @@
     render();
   }
 
+  function getPreviewAnswers() {
+    return QUESTIONS.map((question, index) => {
+      const targetScore = [2, 1, 3, 0][index % 4];
+      const targetIndex = question.options.findIndex((option) => option.score === targetScore);
+      return targetIndex >= 0 ? targetIndex : 0;
+    });
+  }
+
+  function applyPreviewFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const preview = params.get("preview");
+    if (preview !== "result" && preview !== "salon") {
+      return;
+    }
+    state.screen = preview;
+    state.current = QUESTIONS.length - 1;
+    state.answers = getPreviewAnswers();
+    state.error = "";
+  }
+
+  function focusPreviewSection() {
+    const params = new URLSearchParams(window.location.search);
+    const focus = params.get("focus");
+    if (focus !== "salon") {
+      return;
+    }
+    window.setTimeout(() => {
+      document.querySelector(".salon-application, .salon-page-title")?.scrollIntoView({ block: "center" });
+    }, 80);
+  }
+
   function selectOption(optionIndex) {
     state.answers[state.current] = optionIndex;
     state.error = "";
@@ -754,20 +795,10 @@
   function renderSalonApplication(result) {
     return `
       <section class="salon-application salon-guidance" aria-label="${LEAD_PAGE_TITLE}">
-        <div class="salon-application-head">
-          <h3>找驿站主老师申请免费沙龙</h3>
+        <div class="salon-promise-card">
           <p class="salon-promise">${SALON_PROMISE}</p>
+          <button class="salon-final-cta" data-action="salon" type="button">${SALON_CTA_TEXT}</button>
         </div>
-        <div class="salon-purpose-list">
-          <span><b>找到源头</b><small>看见问题从哪里开始</small></span>
-          <span><b>看清原因</b><small>知道为什么反复发生</small></span>
-          <span><b>自己会解决</b><small>收获一辈子的幸福能力</small></span>
-        </div>
-        <div class="salon-marker">
-          <strong>下一步很简单</strong>
-          <p>带着这份自检结果，去找你的幸福驿站老师，申请参加一场免费幸福沙龙。不是短暂缓解，而是学习让自己一辈子会幸福的方法。</p>
-        </div>
-        <button class="salon-final-cta" data-action="salon" type="button">${SALON_CTA_TEXT}</button>
       </section>
     `;
   }
@@ -776,12 +807,24 @@
     root.innerHTML = `
       <section class="app-shell salon-page-shell">
         <div class="surface salon-page-surface">
-          <div class="salon-page-kicker">找驿站主老师申请免费沙龙</div>
           <h1 class="salon-page-title">${LEAD_PAGE_TITLE}</h1>
-          <p class="salon-page-copy">${LEAD_PAGE_COPY}</p>
+          <div class="salon-question-stack">
+            <p>${SALON_QUESTION_ONE}</p>
+            <p>${SALON_QUESTION_TWO}</p>
+          </div>
+          <p class="salon-reason-line">${SALON_REASON_LINE}</p>
+          <div class="salon-purpose-list salon-page-purpose">
+            <span><b>找到源头</b><small>看见问题从哪里开始</small></span>
+            <span><b>看清原因</b><small>知道为什么反复发生</small></span>
+            <span><b>自己会解决</b><small>收获一辈子的幸福能力</small></span>
+          </div>
+          <div class="salon-marker salon-page-marker">
+            <strong>下一步很简单</strong>
+            <p>${LEAD_PAGE_COPY}</p>
+          </div>
           <div class="salon-brief">
             <strong>申请说明</strong>
-            <p>${SALON_APPLICATION_NOTE}</p>
+            ${SALON_APPLICATION_NOTES.map((note) => `<p>${note}</p>`).join("")}
           </div>
           <div class="salon-info-grid" aria-label="沙龙规则">
             <span><b>40-60 分钟</b><small>共同学习，不讲大道理</small></span>
@@ -790,6 +833,7 @@
             <span><b>简单互动</b><small>6 岁孩子也能听懂</small></span>
           </div>
           <p class="salon-simple-line">用简单的话和互动游戏，帮你看清问题，找到原因，开始自己解决。</p>
+          <p class="salon-screenshot-note">${SALON_SCREENSHOT_NOTE}</p>
           <div class="button-row">
             <button class="secondary-btn" data-action="result" type="button">返回自检结果</button>
             <button class="primary-btn" data-action="restart" type="button">重新测一次</button>
@@ -899,7 +943,11 @@
     }
   });
 
-  document.addEventListener("DOMContentLoaded", render);
+  document.addEventListener("DOMContentLoaded", () => {
+    applyPreviewFromQuery();
+    render();
+    focusPreviewSection();
+  });
 
   window.HappinessDemo = {
     DIMENSIONS,
@@ -919,6 +967,11 @@
     LEAD_PAGE_TITLE,
     LEAD_PAGE_COPY,
     SALON_PROMISE,
+    SALON_QUESTION_ONE,
+    SALON_QUESTION_TWO,
+    SALON_REASON_LINE,
+    SALON_SCREENSHOT_NOTE,
+    SALON_APPLICATION_NOTES,
     SALON_APPLICATION_NOTE,
     RADAR_RING_COUNT,
     getRadarLabel,

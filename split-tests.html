@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福驿站分屏演示测试</title>
+  <style>
+    body { margin: 32px; color: #202124; font-family: Arial, "Microsoft YaHei", sans-serif; }
+    .pass { color: #0f7b45; }
+    .fail { color: #b42318; }
+    li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>幸福驿站分屏演示测试</h1>
+  <ol id="results"></ol>
+  <script>
+    const results = document.querySelector("#results");
+
+    function record(name, passed, detail) {
+      const item = document.createElement("li");
+      item.className = passed ? "pass" : "fail";
+      item.textContent = `${passed ? "PASS" : "FAIL"} - ${name}${detail ? " - " + detail : ""}`;
+      results.appendChild(item);
+    }
+
+    function assertTrue(name, value) {
+      record(name, Boolean(value), `actual: ${value}`);
+    }
+
+    function assertEqual(name, actual, expected) {
+      record(name, Object.is(actual, expected), `actual: ${actual}, expected: ${expected}`);
+    }
+
+    fetch("./split.html")
+      .then((response) => response.text())
+      .then((html) => {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const frames = [...doc.querySelectorAll("iframe")];
+        assertEqual("split page has two windows", frames.length, 2);
+        assertTrue("front window points to happiness self check", frames.some((frame) => frame.getAttribute("src").includes("index.html")));
+        assertTrue("admin window points to owner backend", frames.some((frame) => frame.getAttribute("src").includes("admin.html")));
+        assertTrue("front panel label is available", html.includes("幸福自检表前端"));
+        assertTrue("admin panel label is available", html.includes("驿站主后台"));
+        assertTrue("page uses split layout", Boolean(doc.querySelector(".split-stage")));
+      })
+      .catch((error) => {
+        record("split page can be loaded", false, error.message);
+      });
+  </script>
+</body>
+</html>

@@ -825,6 +825,7 @@ p {
     0 1px 0 rgba(255, 255, 255, 0.5) inset;
   font-size: 18px;
   font-weight: 900;
+  transform: translateY(-5px);
 }
 
 .expert-head p {
@@ -883,11 +884,11 @@ p {
 
 .salon-application {
   margin-top: 16px;
-  padding: 20px;
+  padding: 16px;
   background:
-    radial-gradient(circle at 92% 0%, rgba(255, 198, 84, 0.28), transparent 34%),
-    linear-gradient(145deg, rgba(255, 251, 245, 0.98), rgba(255, 232, 204, 0.86));
-  border: 1px solid rgba(255, 159, 76, 0.42);
+    radial-gradient(circle at 12% 0%, rgba(255, 199, 189, 0.34), transparent 36%),
+    linear-gradient(145deg, rgba(255, 253, 249, 0.98), rgba(255, 238, 225, 0.9));
+  border: 1px solid rgba(255, 172, 132, 0.46);
   border-radius: 22px;
   box-shadow: 0 20px 38px rgba(181, 91, 34, 0.14), 0 1px 0 rgba(255, 255, 255, 0.88) inset;
 }
@@ -920,14 +921,24 @@ p {
 
 .salon-promise {
   max-width: 820px;
-  padding: 12px 14px;
-  color: #a63f1b !important;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 176, 104, 0.54);
-  border-radius: 16px;
-  box-shadow: 0 12px 24px rgba(181, 91, 34, 0.08), 0 1px 0 rgba(255, 255, 255, 0.86) inset;
-  font-size: 18px !important;
-  line-height: 1.65;
+  margin: 0 auto;
+  color: #b5482d !important;
+  font-size: 20px !important;
+  font-weight: 900;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.salon-promise-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px 16px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 217, 190, 0.42), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 242, 232, 0.74));
+  border: 1px solid rgba(255, 174, 132, 0.48);
+  border-radius: 20px;
+  box-shadow: 0 16px 30px rgba(181, 91, 34, 0.1), 0 1px 0 rgba(255, 255, 255, 0.88) inset;
 }
 
 .salon-purpose-list {
@@ -983,8 +994,8 @@ p {
 .salon-final-cta {
   width: fit-content;
   max-width: 100%;
-  margin: 16px auto 0;
-  padding: 13px 20px;
+  margin: 0 auto;
+  padding: 13px 30px;
   color: #fff;
   text-align: center;
   background: linear-gradient(135deg, #ff984f, #e86a2b 62%, #cf4e1e);
@@ -1003,7 +1014,7 @@ p {
 
 .salon-page-surface {
   display: grid;
-  gap: 14px;
+  gap: 9px;
 }
 
 .salon-page-kicker {
@@ -1019,7 +1030,7 @@ p {
 
 .salon-page-title {
   max-width: 100%;
-  margin: 0;
+  margin: 0 0 2px;
   color: #d35d24;
   font-size: clamp(32px, 7vw, 52px);
   font-weight: 900;
@@ -1029,26 +1040,73 @@ p {
 
 .salon-page-copy {
   max-width: 720px;
-  margin: 0 auto;
+  margin: -1px auto 0;
   color: #6a5649;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   text-align: center;
+  line-height: 1.7;
+}
+
+.salon-question-stack {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 208, 161, 0.18), transparent 35%),
+    rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 188, 138, 0.32);
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(120, 75, 38, 0.045);
+}
+
+.salon-question-stack p {
+  margin: 0;
+  color: #aa4727;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.48;
+}
+
+.salon-reason-line {
+  margin: 0;
+  padding: 8px 11px;
+  color: #5f4c42;
+  text-align: center;
+  background: rgba(255, 249, 242, 0.62);
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.salon-page-purpose {
+  margin-top: 0;
+}
+
+.salon-page-marker {
+  margin-top: 0;
+  background: rgba(246, 255, 248, 0.76);
+  border-color: rgba(97, 188, 112, 0.34);
+}
+
+.salon-page-marker strong {
+  color: #2f9850;
 }
 
 .salon-brief {
-  padding: 15px;
+  padding: 12px;
   background:
-    radial-gradient(circle at 94% 0%, rgba(255, 204, 112, 0.22), transparent 36%),
-    rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 180, 105, 0.5);
-  border-radius: 18px;
-  box-shadow: 0 14px 30px rgba(120, 75, 38, 0.08), 0 1px 0 rgba(255, 255, 255, 0.82) inset;
+    radial-gradient(circle at 94% 0%, rgba(255, 204, 112, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(255, 253, 247, 0.86), rgba(255, 244, 233, 0.7));
+  border: 1px solid rgba(255, 170, 102, 0.42);
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(120, 75, 38, 0.055), 0 1px 0 rgba(255, 255, 255, 0.72) inset;
 }
 
 .salon-brief strong {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: #c9531f;
   font-size: 18px;
 }
@@ -1056,22 +1114,26 @@ p {
 .salon-brief p {
   margin: 0;
   color: #5e4b40;
-  line-height: 1.72;
+  line-height: 1.56;
+}
+
+.salon-brief p + p {
+  margin-top: 6px;
 }
 
 .salon-info-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+  gap: 7px;
 }
 
 .salon-info-grid span {
   min-width: 0;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.66);
-  border: 1px solid rgba(241, 203, 166, 0.68);
-  border-radius: 15px;
-  box-shadow: 0 8px 18px rgba(120, 75, 38, 0.05);
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(241, 203, 166, 0.5);
+  border-radius: 13px;
+  box-shadow: 0 6px 14px rgba(120, 75, 38, 0.035);
 }
 
 .salon-info-grid b,
@@ -1093,12 +1155,26 @@ p {
 
 .salon-simple-line {
   margin: 0;
-  padding: 10px 12px;
+  padding: 8px 10px;
   color: #6b4f3f;
   text-align: center;
-  background: rgba(255, 245, 234, 0.72);
+  background: rgba(255, 245, 234, 0.6);
   border-radius: 999px;
+  font-size: 14px;
   font-weight: 800;
+}
+
+.salon-screenshot-note {
+  margin: 0;
+  padding: 10px 12px;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9b64, #eb7142);
+  border-radius: 16px;
+  box-shadow: 0 12px 22px rgba(232, 106, 43, 0.16), 0 1px 0 rgba(255, 255, 255, 0.38) inset;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.55;
 }
 
 .lead-form {
@@ -1325,7 +1401,7 @@ p {
   }
 
   .salon-page-surface {
-    gap: 12px;
+    gap: 10px;
   }
 
   .salon-page-title {
@@ -1337,14 +1413,34 @@ p {
     font-size: 14px;
   }
 
+  .salon-question-stack {
+    padding: 10px 11px;
+    border-radius: 15px;
+  }
+
+  .salon-question-stack p {
+    font-size: 15px;
+    line-height: 1.48;
+  }
+
+  .salon-brief {
+    padding: 11px;
+    border-radius: 15px;
+  }
+
   .salon-info-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 6px;
   }
 
   .salon-simple-line {
     border-radius: 16px;
     font-size: 13px;
     line-height: 1.55;
+  }
+
+  .salon-screenshot-note {
+    font-size: 14px;
   }
 
   .lead-copy,

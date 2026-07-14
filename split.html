@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福驿站前后端分屏演示</title>
+  <style>
+    :root {
+      color: #312720;
+      background: #fff7ed;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 16% 8%, rgba(255, 191, 104, 0.34), transparent 30%),
+        linear-gradient(135deg, #fffaf2 0%, #fff1df 48%, #fff7f0 100%);
+    }
+
+    .demo-shell {
+      min-height: 100vh;
+      padding: 18px;
+    }
+
+    .demo-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      max-width: 1480px;
+      margin: 0 auto 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 18px 44px rgba(188, 96, 33, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .demo-title {
+      min-width: 0;
+    }
+
+    .demo-title span {
+      display: block;
+      color: #d96f35;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 3px 0 0;
+      color: #3d332c;
+      font-size: clamp(20px, 2.1vw, 30px);
+      line-height: 1.15;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .demo-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(231, 117, 49, 0.2);
+      border-radius: 999px;
+      color: #7a3d20;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 10px 24px rgba(202, 105, 43, 0.12);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .split-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: 16px;
+      max-width: 1480px;
+      height: calc(100vh - 112px);
+      min-height: 620px;
+      margin: 0 auto;
+    }
+
+    .demo-window {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 22px 54px rgba(177, 91, 32, 0.16);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(232, 143, 83, 0.14);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .window-label {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+      font-weight: 900;
+    }
+
+    .window-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff8a3d;
+      box-shadow:
+        18px 0 0 #ffd060,
+        36px 0 0 #48c776;
+      flex: 0 0 auto;
+    }
+
+    .window-label span:last-child {
+      display: block;
+      overflow: hidden;
+      color: #3f332b;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .window-tag {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #965028;
+      background: #fff3e6;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .demo-shell {
+        padding: 12px;
+      }
+
+      .demo-topbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 22px;
+      }
+
+      .demo-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .split-stage {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 0;
+      }
+
+      .demo-window {
+        min-height: 680px;
+        border-radius: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo-shell">
+    <header class="demo-topbar">
+      <div class="demo-title">
+        <span>幸福驿站演示台</span>
+        <h1>前端与驿站主后台分屏查看</h1>
+      </div>
+      <nav class="demo-actions" aria-label="单独打开">
+        <a href="./index.html?from=split" target="_blank" rel="noreferrer">单独打开前端</a>
+        <a href="./admin.html?from=split" target="_blank" rel="noreferrer">单独打开后台</a>
+      </nav>
+    </header>
+
+    <section class="split-stage" aria-label="幸福驿站前后端分屏">
+      <article class="demo-window">
+        <div class="window-bar">
+          <div class="window-label">
+            <span class="window-dot" aria-hidden="true"></span>
+            <span>幸福自检表前端</span>
+          </div>
+          <span class="window-tag">用户填写端</span>
+        </div>
+        <iframe title="幸福自检表前端" src="./index.html?embed=frontend"></iframe>
+      </article>
+
+      <article class="demo-window">
+        <div class="window-bar">
+          <div class="window-label">
+            <span class="window-dot" aria-hidden="true"></span>
+            <span>驿站主后台</span>
+          </div>
+          <span class="window-tag">客户跟进端</span>
+        </div>
+        <iframe title="驿站主后台" src="./admin.html?embed=admin"></iframe>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10 万次模拟测试</title>
+  <style>
+    body { font-family: Arial, "Microsoft YaHei", sans-serif; margin: 32px; color: #202124; }
+    button { padding: 12px 18px; border: 0; border-radius: 8px; background: #b8512f; color: white; cursor: pointer; }
+    pre { white-space: pre-wrap; background: #f4f6f2; padding: 16px; border-radius: 8px; }
+    .pass { color: #0f7b45; font-weight: 700; }
+    .fail { color: #b42318; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>10 万次模拟答题测试</h1>
+  <p>这个页面只用于 demo 稳定性验证，不代表真实 10 万人用户反馈。</p>
+  <button id="run" type="button">开始模拟</button>
+  <p id="status"></p>
+  <pre id="output"></pre>
+  <script src="./app.js"></script>
+  <script>
+    const runButton = document.querySelector("#run");
+    const statusEl = document.querySelector("#status");
+    const outputEl = document.querySelector("#output");
+
+    function randomAnswers() {
+      return HappinessDemo.QUESTIONS.map((question) => Math.floor(Math.random() * question.options.length));
+    }
+
+    function runSimulation(totalRuns) {
+      const levelCounts = {};
+      let minIndex = 100;
+      let maxIndex = 0;
+      let invalidCount = 0;
+      const dimensionFocusCounts = {};
+      const startedAt = performance.now();
+      const allBest = HappinessDemo.QUESTIONS.map((question) => question.options.findIndex((option) => option.score === 2));
+      const allLowest = HappinessDemo.QUESTIONS.map((question) => question.options.findIndex((option) => option.score === 0));
+      const bestResult = HappinessDemo.calculateResult(allBest);
+      const lowResult = HappinessDemo.calculateResult(allLowest);
+
+      for (let index = 0; index < totalRuns; index += 1) {
+        const result = HappinessDemo.calculateResult(randomAnswers());
+        minIndex = Math.min(minIndex, result.indexScore);
+        maxIndex = Math.max(maxIndex, result.indexScore);
+        levelCounts[result.level.title] = (levelCounts[result.level.title] || 0) + 1;
+        dimensionFocusCounts[result.weakest.label] = (dimensionFocusCounts[result.weakest.label] || 0) + 1;
+
+        const dimensionsValid = result.dimensions.every((dimension) => dimension.score >= 0 && dimension.score <= dimension.max);
+        if (
+          result.totalScore < 0 ||
+          result.totalScore > 40 ||
+          result.indexScore < 0 ||
+          result.indexScore > 100 ||
+          !dimensionsValid ||
+          !result.level ||
+          !result.action
+        ) {
+          invalidCount += 1;
+        }
+      }
+
+      const elapsedMs = Math.round(performance.now() - startedAt);
+      const boundaryCases = {
+        bestIndex: bestResult.indexScore,
+        lowestIndex: lowResult.indexScore,
+        bestTotalScore: bestResult.totalScore,
+        lowestTotalScore: lowResult.totalScore
+      };
+      const boundaryPassed = bestResult.indexScore === 100 && lowResult.indexScore === 0;
+      return {
+        totalRuns,
+        elapsedMs,
+        invalidCount,
+        minIndex,
+        maxIndex,
+        boundaryCases,
+        levelCounts,
+        dimensionFocusCounts,
+        passed: invalidCount === 0 && minIndex >= 0 && maxIndex <= 100 && boundaryPassed
+      };
+    }
+
+    window.HappinessSimulation = {
+      runSimulation
+    };
+
+    runButton.addEventListener("click", () => {
+      statusEl.textContent = "正在模拟 100,000 份答卷...";
+      outputEl.textContent = "";
+      window.setTimeout(() => {
+        const report = runSimulation(100000);
+        statusEl.className = report.passed ? "pass" : "fail";
+        statusEl.textContent = report.passed ? "PASS：模拟测试通过" : "FAIL：模拟测试发现异常";
+        outputEl.textContent = JSON.stringify(report, null, 2);
+      }, 50);
+    });
+  </script>
+</body>
+</html>
