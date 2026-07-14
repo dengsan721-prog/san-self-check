@@ -14,7 +14,7 @@
 <body>
   <h1>幸福自检表测试</h1>
   <ol id="results"></ol>
-  <script src="./app.js?v=salon-note-3"></script>
+  <script src="./app.js?v=salon-steps-2"></script>
   <script>
     const results = document.querySelector("#results");
 
@@ -88,7 +88,7 @@
       assertEqual(
         "salon promise is simple and direct",
         HappinessDemo.SALON_PROMISE,
-        "你想要解决的问题其实很简单，参加完免费幸福沙龙，你自己就能找到问题的原因，自己解决。"
+        "你想要解决的问题其实很简单，参加完免费幸福沙龙，你自己就能找到问题的原因，自己轻松解决。"
       );
       assertEqual("salon question one is direct", HappinessDemo.SALON_QUESTION_ONE, "想一阵子解决问题，还是一辈子解决问题？");
       assertEqual("salon question two is direct", HappinessDemo.SALON_QUESTION_TWO, "想要一阵子幸福，还是一辈子幸福？");
@@ -117,8 +117,8 @@
     }
 
     Promise.all([
-      fetch("./app.js?v=salon-note-3").then((response) => response.text()),
-      fetch("./styles.css?v=salon-note-3").then((response) => response.text())
+      fetch("./app.js?v=salon-steps-2").then((response) => response.text()),
+      fetch("./styles.css?v=salon-steps-2").then((response) => response.text())
     ]).then(([js, css]) => {
       const resultSalonBlock = js.slice(js.indexOf("function renderSalonApplication"), js.indexOf("function renderSalonPage"));
       const salonPageBlock = js.slice(js.indexOf("function renderSalonPage"), js.indexOf("function renderResult"));
@@ -133,9 +133,9 @@
       assertTrue("result CTA jumps to salon page", js.includes("data-action=\"salon\"") && js.includes("我要幸福"));
       assertTrue("salon page can render", js.includes("renderSalonPage") && js.includes("我申请参加幸福沙龙"));
       assertTrue("result keeps salon guidance compact", !resultSalonBlock.includes("salon-purpose-list") && !resultSalonBlock.includes("salon-marker"));
-      assertTrue("salon page owns source and simple next step", salonPageBlock.includes("salon-purpose-list") && salonPageBlock.includes("下一步很简单"));
-      assertTrue("salon page removes top kicker", !salonPageBlock.includes("salon-page-kicker"));
-      assertTrue("salon page asks two questions", salonPageBlock.includes("SALON_QUESTION_ONE") && salonPageBlock.includes("SALON_QUESTION_TWO"));
+      assertTrue("salon page owns source steps", salonPageBlock.includes("salon-purpose-list"));
+      assertTrue("salon page keeps application title and removes questions", salonPageBlock.includes("salon-page-title") && salonPageBlock.includes("LEAD_PAGE_TITLE") && !salonPageBlock.includes("SALON_QUESTION_ONE") && !salonPageBlock.includes("SALON_REASON_LINE"));
+      assertTrue("salon page removes restart button", !salonPageBlock.includes("data-action=\"restart\"") && !salonPageBlock.includes("重新测一次"));
       assertTrue("salon page includes screenshot note", salonPageBlock.includes("SALON_SCREENSHOT_NOTE"));
       assertTrue("salon application note is rendered in paragraphs", salonPageBlock.includes("SALON_APPLICATION_NOTES.map"));
       assertTrue("dimension pills use dimension colors", js.includes("dimension-${dimension.key}") && css.includes(".dimension-family"));
@@ -144,6 +144,7 @@
       assertTrue("result no longer renders lead form", !js.includes("data-lead-form") && !js.includes("lead-contact"));
       assertTrue("separate success screen is removed", !js.includes("renderSuccess") && !js.includes("setScreen(\"success\")"));
       assertTrue("salon guidance is styled", css.includes("salon-purpose-list") && css.includes("salon-final-cta"));
+      assertTrue("salon step pills use progressive colors", css.includes(".salon-page-purpose span:nth-child(1)") && css.includes(".salon-page-purpose span:nth-child(2)") && css.includes(".salon-page-purpose span:nth-child(3)"));
     }).catch((error) => {
       record("source checks can be loaded", false, error.message);
     });

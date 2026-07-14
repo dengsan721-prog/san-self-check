@@ -1084,6 +1084,33 @@ p {
   margin-top: 0;
 }
 
+.salon-page-purpose span:nth-child(1) {
+  background: linear-gradient(145deg, rgba(255, 246, 230, 0.96), rgba(255, 224, 177, 0.76));
+  border-color: rgba(255, 177, 88, 0.56);
+}
+
+.salon-page-purpose span:nth-child(1) b {
+  color: #c85a1f;
+}
+
+.salon-page-purpose span:nth-child(2) {
+  background: linear-gradient(145deg, rgba(255, 250, 235, 0.96), rgba(255, 237, 151, 0.74));
+  border-color: rgba(237, 190, 54, 0.54);
+}
+
+.salon-page-purpose span:nth-child(2) b {
+  color: #b8820e;
+}
+
+.salon-page-purpose span:nth-child(3) {
+  background: linear-gradient(145deg, rgba(243, 255, 246, 0.96), rgba(186, 238, 198, 0.78));
+  border-color: rgba(88, 185, 110, 0.5);
+}
+
+.salon-page-purpose span:nth-child(3) b {
+  color: #2f9850;
+}
+
 .salon-page-marker {
   margin-top: 0;
   background: rgba(246, 255, 248, 0.76);

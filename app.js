@@ -258,7 +258,7 @@
   const SALON_CTA_TEXT = "我要幸福";
   const LEAD_PAGE_TITLE = "我申请参加幸福沙龙";
   const LEAD_PAGE_COPY = "不是一阵子解决问题，而是学习一辈子解决问题的幸福能力。找到源头、看清原因，你才会真正知道怎么解决问题。";
-  const SALON_PROMISE = "你想要解决的问题其实很简单，参加完免费幸福沙龙，你自己就能找到问题的原因，自己解决。";
+  const SALON_PROMISE = "你想要解决的问题其实很简单，参加完免费幸福沙龙，你自己就能找到问题的原因，自己轻松解决。";
   const SALON_QUESTION_ONE = "想一阵子解决问题，还是一辈子解决问题？";
   const SALON_QUESTION_TWO = "想要一阵子幸福，还是一辈子幸福？";
   const SALON_REASON_LINE = "找到源头，看清原因，你才能真正知道怎么解决问题。";
@@ -808,11 +808,6 @@
       <section class="app-shell salon-page-shell">
         <div class="surface salon-page-surface">
           <h1 class="salon-page-title">${LEAD_PAGE_TITLE}</h1>
-          <div class="salon-question-stack">
-            <p>${SALON_QUESTION_ONE}</p>
-            <p>${SALON_QUESTION_TWO}</p>
-          </div>
-          <p class="salon-reason-line">${SALON_REASON_LINE}</p>
           <div class="salon-purpose-list salon-page-purpose">
             <span><b>找到源头</b><small>看见问题从哪里开始</small></span>
             <span><b>看清原因</b><small>知道为什么反复发生</small></span>
@@ -836,7 +831,6 @@
           <p class="salon-screenshot-note">${SALON_SCREENSHOT_NOTE}</p>
           <div class="button-row">
             <button class="secondary-btn" data-action="result" type="button">返回自检结果</button>
-            <button class="primary-btn" data-action="restart" type="button">重新测一次</button>
           </div>
           ${renderMotto()}
         </div>
