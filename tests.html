@@ -66,6 +66,7 @@
       assertEqual("complete lead is valid", HappinessDemo.validateLead({ name: "王女士", contact: "wx123" }).valid, true);
       assertEqual("footer quote is available", HappinessDemo.FOOTER_QUOTE, "如果你不幸福，那长寿就是延长痛苦！");
       assertEqual("truth hint is available", HappinessDemo.TRUTH_HINT, "请按最近 30 天最常发生的真实情况选择，不选应该怎么做，只选更像你家的样子。");
+      assertEqual("question 14 title is corrected", HappinessDemo.QUESTIONS[13].text, "在外人面前聊到家人时，你平常是哪种状态？");
       assertEqual(
         "question 15 busy response is scenario based",
         HappinessDemo.QUESTIONS[14].options.find((option) => option.score === 1).text,
@@ -104,14 +105,15 @@
     }
 
     Promise.all([
-      fetch("./app.js?v=relaxed-home-1").then((response) => response.text()),
-      fetch("./styles.css?v=relaxed-home-1").then((response) => response.text())
+      fetch("./app.js?v=q14-typo-1").then((response) => response.text()),
+      fetch("./styles.css?v=q14-typo-1").then((response) => response.text())
     ]).then(([js, css]) => {
       assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
       assertTrue("intro removes fragmented point list", !js.includes("intro-points"));
       assertTrue("intro removes compact stat chips", !js.includes("intro-stats"));
       assertTrue("home title is happiness self check", js.includes("幸福自检表"));
       assertTrue("intro eyebrow is removed", !js.includes("家庭幸福能力自评"));
+      assertTrue("copy avoids duplicated station owner wording", !js.includes("幸福驿站驿站主"));
       assertTrue("result renders salon guidance", js.includes("renderSalonApplication(result)") && js.includes("salon-purpose-list"));
       assertTrue("result no longer renders lead form", !js.includes("data-lead-form") && !js.includes("lead-contact"));
       assertTrue("separate success screen is removed", !js.includes("renderSuccess") && !js.includes("setScreen(\"success\")"));
