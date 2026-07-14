@@ -83,8 +83,14 @@
       assertEqual("question dimension label is hidden", HappinessDemo.SHOW_QUESTION_DIMENSION_LABEL, false);
       assertEqual("result title text is available", HappinessDemo.RESULT_TITLE_TEXT, "你的自检结果");
       assertEqual("expert analysis title is available", HappinessDemo.EXPERT_ANALYSIS_TITLE, "专家团分析解读");
-      assertEqual("salon CTA points to station owner", HappinessDemo.SALON_CTA_TEXT, "找驿站主申请免费沙龙");
-      assertEqual("lead page title is free salon", HappinessDemo.LEAD_PAGE_TITLE, "申请参加一场免费幸福沙龙");
+      assertEqual("salon CTA points to happiness action", HappinessDemo.SALON_CTA_TEXT, "我要幸福");
+      assertEqual("lead page title is free salon", HappinessDemo.LEAD_PAGE_TITLE, "我申请参加幸福沙龙");
+      assertEqual(
+        "salon promise is simple and direct",
+        HappinessDemo.SALON_PROMISE,
+        "你想要解决的问题其实很简单，参加完免费沙龙，你自己就能找到问题的原因，自己解决！"
+      );
+      assertTrue("salon explanation mentions queueing", HappinessDemo.SALON_APPLICATION_NOTE.includes("提前排队预约"));
       assertEqual("expert analysis has ten score bands", HappinessDemo.EXPERT_SCORE_BANDS.length, 10);
       assertEqual("expert band changes every ten points", HappinessDemo.getExpertBand(9).range, "0-9");
       assertEqual("expert band for ten points", HappinessDemo.getExpertBand(10).range, "10-19");
@@ -105,8 +111,8 @@
     }
 
     Promise.all([
-      fetch("./app.js?v=q14-typo-1").then((response) => response.text()),
-      fetch("./styles.css?v=q14-typo-1").then((response) => response.text())
+      fetch("./app.js?v=result-salon-1").then((response) => response.text()),
+      fetch("./styles.css?v=result-salon-1").then((response) => response.text())
     ]).then(([js, css]) => {
       assertTrue("intro no longer renders hero image", !js.includes("hero-visual"));
       assertTrue("intro removes fragmented point list", !js.includes("intro-points"));
@@ -114,6 +120,12 @@
       assertTrue("home title is happiness self check", js.includes("幸福自检表"));
       assertTrue("intro eyebrow is removed", !js.includes("家庭幸福能力自评"));
       assertTrue("copy avoids duplicated station owner wording", !js.includes("幸福驿站驿站主"));
+      assertTrue("result removes tonight action block", !js.includes("今晚小行动"));
+      assertTrue("result removes focus label chip", !js.includes("重点标识"));
+      assertTrue("result CTA jumps to salon page", js.includes("data-action=\"salon\"") && js.includes("我要幸福"));
+      assertTrue("salon page can render", js.includes("renderSalonPage") && js.includes("我申请参加幸福沙龙"));
+      assertTrue("dimension pills use dimension colors", js.includes("dimension-${dimension.key}") && css.includes(".dimension-family"));
+      assertTrue("radar uses richer gradient", js.includes("radarAura") && js.includes("#49b9ff") && js.includes("#7bd66f"));
       assertTrue("result renders salon guidance", js.includes("renderSalonApplication(result)") && js.includes("salon-purpose-list"));
       assertTrue("result no longer renders lead form", !js.includes("data-lead-form") && !js.includes("lead-contact"));
       assertTrue("separate success screen is removed", !js.includes("renderSuccess") && !js.includes("setScreen(\"success\")"));
