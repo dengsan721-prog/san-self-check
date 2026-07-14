@@ -255,9 +255,11 @@
   const SHOW_START_ARROW = false;
   const RESULT_TITLE_TEXT = "你的自检结果";
   const EXPERT_ANALYSIS_TITLE = "专家团分析解读";
-  const SALON_CTA_TEXT = "找驿站主申请免费沙龙";
-  const LEAD_PAGE_TITLE = "申请参加一场免费幸福沙龙";
+  const SALON_CTA_TEXT = "我要幸福";
+  const LEAD_PAGE_TITLE = "我申请参加幸福沙龙";
   const LEAD_PAGE_COPY = "不是一阵子解决问题，而是学习一辈子解决问题的幸福能力。找到源头、看清原因，你才会真正知道怎么解决问题。";
+  const SALON_PROMISE = "你想要解决的问题其实很简单，参加完免费沙龙，你自己就能找到问题的原因，自己解决！";
+  const SALON_APPLICATION_NOTE = "因为参加人数较多，申请幸福沙龙需要向驿站主老师提前排队预约。我们将以幸福沙龙的方式共同学习，全程 40-60 分钟，免费参与，严禁打广告、促销。老师会用 6 岁孩子都能听懂的语言和互动游戏，帮助你看清问题、找到原因。为了保证沙龙效果，每次只教 2 个人，参与的人都是咱们同龄人、普通爸妈。";
   const RADAR_RING_COUNT = 5;
   const EXPERT_SCORE_BANDS = [
     {
@@ -610,7 +612,7 @@
           <div class="pulse" aria-hidden="true"></div>
           <div class="eyebrow">正在生成</div>
           <h2>正在整理你的五维幸福能力图谱</h2>
-          <p>结果会先给你一个清晰摘要，再给出今晚就能做的小行动。</p>
+          <p>结果会先给你一个清晰摘要，再给出适合下一步参加沙龙的建议。</p>
           ${renderMotto()}
         </div>
       </section>
@@ -640,16 +642,27 @@
         <svg class="radar" viewBox="0 0 160 160" role="img" aria-label="五维蛛网图">
           <defs>
             <linearGradient id="radarFill" x1="28" y1="22" x2="132" y2="140" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#ffcc65" stop-opacity="0.54"></stop>
-              <stop offset="0.55" stop-color="#ff8a56" stop-opacity="0.32"></stop>
-              <stop offset="1" stop-color="#e84a3f" stop-opacity="0.2"></stop>
+              <stop offset="0" stop-color="#49b9ff" stop-opacity="0.48"></stop>
+              <stop offset="0.28" stop-color="#7bd66f" stop-opacity="0.38"></stop>
+              <stop offset="0.58" stop-color="#ffd45f" stop-opacity="0.36"></stop>
+              <stop offset="0.82" stop-color="#ff8a56" stop-opacity="0.32"></stop>
+              <stop offset="1" stop-color="#e84a8a" stop-opacity="0.24"></stop>
             </linearGradient>
             <linearGradient id="radarStroke" x1="42" y1="24" x2="122" y2="132" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#ffd45f"></stop>
-              <stop offset="0.55" stop-color="#ff764b"></stop>
-              <stop offset="1" stop-color="#de423b"></stop>
+              <stop offset="0" stop-color="#49b9ff"></stop>
+              <stop offset="0.24" stop-color="#7bd66f"></stop>
+              <stop offset="0.52" stop-color="#ffd45f"></stop>
+              <stop offset="0.78" stop-color="#ff764b"></stop>
+              <stop offset="1" stop-color="#d85bd6"></stop>
             </linearGradient>
+            <radialGradient id="radarAura" cx="50%" cy="48%" r="58%">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"></stop>
+              <stop offset="0.36" stop-color="#49b9ff" stop-opacity="0.14"></stop>
+              <stop offset="0.62" stop-color="#7bd66f" stop-opacity="0.13"></stop>
+              <stop offset="1" stop-color="#ff8a56" stop-opacity="0.08"></stop>
+            </radialGradient>
           </defs>
+          <circle cx="${center}" cy="${center}" r="${maxRadius + 12}" class="radar-aura"></circle>
           ${rings.map((ring, index) => `
             <polygon points="${ring.points}" class="radar-grid radar-grid-${index === 0 ? "outer" : "inner"}"></polygon>
           `).join("")}
@@ -691,7 +704,7 @@
       const percent = dimension.percentScore;
       const status = getDimensionStatus(dimension.score, dimension.max);
       return `
-        <div class="dimension-row status-${status.key}">
+        <div class="dimension-row status-${status.key} dimension-${dimension.key}">
           <div class="dimension-top">
             <span class="dimension-name">${dimension.label}</span>
             <span class="dimension-score">${dimension.percentScore} 分</span>
@@ -742,9 +755,8 @@
     return `
       <section class="salon-application salon-guidance" aria-label="${LEAD_PAGE_TITLE}">
         <div class="salon-application-head">
-          <span>重点标识</span>
-          <h3>${SALON_CTA_TEXT}</h3>
-          <p>${LEAD_PAGE_COPY}</p>
+          <h3>找驿站主老师申请免费沙龙</h3>
+          <p class="salon-promise">${SALON_PROMISE}</p>
         </div>
         <div class="salon-purpose-list">
           <span><b>找到源头</b><small>看见问题从哪里开始</small></span>
@@ -754,9 +766,36 @@
         <div class="salon-marker">
           <strong>下一步很简单</strong>
           <p>带着这份自检结果，去找你的幸福驿站老师，申请参加一场免费幸福沙龙。不是短暂缓解，而是学习让自己一辈子会幸福的方法。</p>
-          <p class="application-action">当前可先做的小行动：${result.action}</p>
         </div>
-        <div class="salon-final-cta">${SALON_CTA_TEXT}</div>
+        <button class="salon-final-cta" data-action="salon" type="button">${SALON_CTA_TEXT}</button>
+      </section>
+    `;
+  }
+
+  function renderSalonPage(root) {
+    root.innerHTML = `
+      <section class="app-shell salon-page-shell">
+        <div class="surface salon-page-surface">
+          <div class="salon-page-kicker">找驿站主老师申请免费沙龙</div>
+          <h1 class="salon-page-title">${LEAD_PAGE_TITLE}</h1>
+          <p class="salon-page-copy">${LEAD_PAGE_COPY}</p>
+          <div class="salon-brief">
+            <strong>申请说明</strong>
+            <p>${SALON_APPLICATION_NOTE}</p>
+          </div>
+          <div class="salon-info-grid" aria-label="沙龙规则">
+            <span><b>40-60 分钟</b><small>共同学习，不讲大道理</small></span>
+            <span><b>免费参与</b><small>严禁广告、促销</small></span>
+            <span><b>每次 2 人</b><small>同龄人、普通爸妈</small></span>
+            <span><b>简单互动</b><small>6 岁孩子也能听懂</small></span>
+          </div>
+          <p class="salon-simple-line">用简单的话和互动游戏，帮你看清问题，找到原因，开始自己解决。</p>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="result" type="button">返回自检结果</button>
+            <button class="primary-btn" data-action="restart" type="button">重新测一次</button>
+          </div>
+          ${renderMotto()}
+        </div>
       </section>
     `;
   }
@@ -787,10 +826,6 @@
               <strong>当前卡点</strong>
               <p>${result.weakest.label} 当前得分为 ${result.weakest.percentScore} 分，更需要被看见。先别急着责备自己，先找到一个可以改的动作。</p>
             </div>
-            <div class="insight-line action-line">
-              <strong>今晚小行动</strong>
-              <p>${result.action}</p>
-            </div>
           </div>
           ${renderExpertAnalysis(result)}
           ${renderSalonApplication(result)}
@@ -819,6 +854,9 @@
     }
     if (state.screen === "result") {
       renderResult(root);
+    }
+    if (state.screen === "salon") {
+      renderSalonPage(root);
     }
   }
 
@@ -853,6 +891,12 @@
     if (action === "prev") {
       prevQuestion();
     }
+    if (action === "salon") {
+      setScreen("salon");
+    }
+    if (action === "result") {
+      setScreen("result");
+    }
   });
 
   document.addEventListener("DOMContentLoaded", render);
@@ -874,6 +918,8 @@
     SALON_CTA_TEXT,
     LEAD_PAGE_TITLE,
     LEAD_PAGE_COPY,
+    SALON_PROMISE,
+    SALON_APPLICATION_NOTE,
     RADAR_RING_COUNT,
     getRadarLabel,
     getExpertBand,
